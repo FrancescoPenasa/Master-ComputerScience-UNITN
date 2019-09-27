@@ -1,0 +1,76 @@
+- installations of tools
+  java 11
+  owasp zap
+  webgoat 8
+
+# choose java version
+sudo update-alternatives --config java
+
+# add PATH
+sudo su
+echo 'JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/bin"' >> /etc/environment
+exit
+
+# owasp zap
+we'll use it as web proxy. (wireshark)
+
+sh zap.sh
+change pot to 8090 to avoid collision. tools-> options -> local proxy
+
+open firefox from zap
+go to tmdb.org
+search in search 
+look at the history to see the request and the response
+or clic on on/off button.
+
+# install webgoat
+
+put it in floder /sectest/erbgoat.jar
+java -jar NAMEJAR --server.port=8081
+
+access from localhost:80801/webgoat/attack
+http://localhost/webgoat/attack 
+injection flaws
+
+ex. 9 
+ex. 10 // if the first one was the one not patched we an comment the rest of the query.
+login_count = 1 or 1=1; -- and userid=1 
+ex. 11
+ex. 12
+Smith
+3SL99A'; UPDATE employee SET salary=99999 WHERE last_name = 'Smith
+
+ex.13 
+SELECT * FROM access_log WHERE = ' '; DROP TABLE access_log; --
+
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE conditio
+
+# SQL syntax
+ DML select
+ DDL create
+ DCL grant
+
+ALTER TABLE employees ADD phone varchar(20);
+DELETE FROM emlpoyees WHERE department='Development';
+DROP TABLE emplyees;
+
+
+# SQL injection
+is the developer fault.
+.ex.
+with string
+.ex.
+with numeric.
+ 
+
+
+- excercises in class 
+
+
+
+
+- excercises at home
+
+
