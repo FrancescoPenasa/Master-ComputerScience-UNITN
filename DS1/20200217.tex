@@ -1,0 +1,77 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Distributed System 1}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{Gian Pietro Picco}
+\texttt{disi.unitn.it/\~{}picco}
+\texttt{gianpietro.picco@unitn.it}
+\texttt{davide.vecchia@unitn.it}
+\texttt{DOL }
+Internet is a big distributed system
+
+\paragraph{Defining features} % (fold)
+\label{par:defining_features}
+\begin{enumerate}
+	\item concurrency
+	\item absence of a global clock
+	\item absence of a shared memory
+	\item independent (and partial) failures
+\end{enumerate}
+% paragraph defining_features (end)
+
+failure probability: $n$ dependent hosts, $p$ probability of failure
+$\rightarrow$ availability $(1-p)^n$
+
+failure probability: $n$ independent hosts, $p$ probability of failure
+$\rightarrow$ availability $1-p^n$
+
+\section{Security} % (fold)
+\label{sec:security}
+
+% section security (end)
+
+\section{Scalability} % (fold)
+\label{sec:scalability}
+\begin{enumerate}
+	\item increase number of users, hosts, or resources
+	\item tradeoff between scale and performance
+\end{enumerate}
+% section scalability (end)
+
+
+\section{Transparency} % (fold)
+\label{sec:transparency}
+
+% section transparency (end)
+
+
+\section{Distributed Consensus} % (fold)
+\label{sec:distributed_consensus}
+
+% section distributed_consensus (end)
+
+
+
+synchronization
+replication and consistency
+fault tolerance
+middleware
+\end{document}
+\grid
+\grid
