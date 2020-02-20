@@ -1,0 +1,153 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Distributed System 1}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{18/02/2020}
+\section{Synchronization in Distributed Systems} % (fold)
+\label{sec:synchronization_in_distributed_systems}
+Time plays a fundamental role in many applications.
+At some point the clock diverge
+
+\textbf{clock drift} $\rho$ costant of variation of time.\\
+For example \[
+	\rho = 10 ^{-6} \frac{s}{s}
+\] 1s every 11.6 days\\
+\textbf{clock skew} $\delta$ maximum clock drift allowed.\\
+
+\textbf{accuracy}: synchronize all clocks against a single one, which is usually the more accurate\\
+\textbf{agreement} synchroniza all clocks among themselves.\\
+\textbf{Monocity must be preserved}
+
+\subsection{Protocols} % (fold)
+\label{ssub:protocols}
+\begin{enumerate}
+	\item Server-based soution: periodically each client update himself with a server clock adding the offset $\theta$.
+
+	\item Network Time Protocol (NTP): protocol to synch time over large-scale networks \texttt{ntp.org}. The NTP servers are in Hierarchical structure (as DNS). Synchronization mechanisms: multicast, procedure-call mode, symmetric mode
+	Symmetric Mode: server exchange their roles and exchange the time.
+\end{enumerate}
+% subsection protocols (end)
+
+\subsection{Observation} % (fold)
+\label{sub:observation}
+\begin{enumerate}
+	\item Often is sufficient to agree on a time, even if it is not accurate.
+	\item what matters is ordering and causality (relative order). (example: allarm -> fire; fire -> allarm).
+	\item if there is no interaction, no sunchronization is required.
+\end{enumerate}
+% subsection observation (end)
+
+
+\section{Modeling a distributed execution} % (fold)
+\label{sec:modeling_a_distributed_execution}
+A distributed algorithm can be modeled as a collection of distributed automata.
+\paragraph{relevant event in distributed algorithms} % (fold)
+\label{par:relevant_event_in_distributed_algorithms}
+\begin{enumerate}
+	\item send event: \textit{send(m,p)}
+	\item receive event: \textit{receive(m)}
+	\item local event: everything else (set a variable, write a file...)
+\end{enumerate}
+% paragraph relevant_event_in_distributed_algorithms (end)
+
+\paragraph{Histories} % (fold)
+\label{par:histories}
+\begin{enumerate}
+	\item local history: history if a process $p_i$
+	\item partial history: ...
+\end{enumerate}
+% paragraph histories (end)
+
+\paragraph{Happens-before} % (fold)
+\label{par:happens_before}
+causality, it is useful only if we don't have global time.
+% paragraph happens_before (end)
+% section modeling_a_distributed_execution (end)
+
+\paragraph{Logical clocks} % (fold)
+\label{par:logical_clocks}
+enable coordination among processes without synchronization of physocal clocks, essetially a counter.
+\textbf{Definition:} Logical clock $LC$ is a map function for the events $e$ of the history $H$ to an element of a time domain $T$
+\[
+	LC : H \rightarrow T
+\]
+\textbf{Clock consistency:} events could be concurrent\[
+	e \rightarrow r' \Rightarrow LC(e) < LC(e')
+\]
+\textbf{Strong clock consistency} events can not be concurrent\[
+	e \rightarrow e' \Leftrightarrow LC(e) < LC(e')
+\]
+% paragraph logical_clocks (end)
+
+\paragraph{Scalar Clocks} % (fold)
+\label{par:scalar_clocks}
+How to assign logical clocks in a way that guarantees \textbf{clock consistency}.\\
+\textbf{Definition Scalar logical clocks:} an increasing counter\\
+\textbf{Update rule...} which guarantees clock consistency by design.
+% paragraph scalar_clocks (end)
+
+\paragraph{Partial vs Total Order} % (fold)
+\label{par:partial_vs_total_order}
+I can add the name of the process to the time to disambiguate the order of the events.
+
+\section{Examples} % (fold)
+\label{sec:examples}
+\subsection{Totally Ordered Multicast} % (fold)
+\label{sub:totally_ordered_multicast}
+
+% subsection totally_ordered_multicast (end)
+% section examples (end)
+
+% paragraph partial_vs_total_order (end)
+\section{Questions} % (fold)
+\label{sec:questions}
+
+\paragraph{Scalar clock EXERCISE} % (fold)
+\label{par:scalar_clock_exercise}
+put the number on the events...
+% paragraph scalar_clock_exercise (end)
+
+\paragraph{what are the problems on the server-based solutions?} % (fold)
+\label{par:q1}
+\begin{enumerate}
+	\item \textbf{Minor:} There is already a mismatch for the "travel" time, to fix this we can use timestamps T1, T2, T3, T4 to measure the RTT.
+	\item \textbf{Major:} We could broke monotonicity of time, to fix the clock we should slow down until the time is fixed.
+\end{enumerate}
+% q1 (end)
+
+\paragraph{Definition of Happen-before} % (fold)
+\label{par:definition_of_happen_before}
+We say that an event $e$ happens-before an event $e'$, and write $e \rightarrow e'$, if one of the following three cases is true:
+\[
+	\exists p_i \in \prod : e = e_i^r, \ e'= e^s_i,\ r < s
+\]
+\[
+	e = send(m,*) \land e' = receive(m) 
+\]
+\[
+	\exists e'': e \rightarrow e'' \rightarrow e' 
+\]
+% paragraph definition_of_happen_before (end)
+
+
+% section questions (end)
+% section synchronization_in_distributed_systems (end)
+\end{document}
+\grid
+\grid

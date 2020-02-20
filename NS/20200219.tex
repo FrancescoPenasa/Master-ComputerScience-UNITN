@@ -1,0 +1,81 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Network Security - Network aspects}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{https://securitylab.disi.unitn.it/doku.php?id=course_netsec_2016}\\
+
+Autonomous Systems -> logically separated networks
+Internet is made of several logically separated networks.
+
+Communication protocols AS betwenn itself
+\begin{enumerate}
+	\item IGP?
+	\item AOSP?
+\end{enumerate}
+
+Communication protocols between AS
+\begin{enumerate}
+	\item bgp?
+\end{enumerate}
+
+\paragraph{OSI model} % (fold)
+\label{par:osi_model}
+\begin{enumerate}
+	\item 1 physical, prevent physical access
+	\item 2 data link
+	\item 3 network 
+	\item 4 transport (tcp port)
+	\item 5 session (ip address)
+	\item 6 presentation (ethernet port)
+	\item 7 application
+\end{enumerate}
+% paragraph osi_model (end)
+
+\paragraph{OSI data link layer} % (fold)
+\label{par:osi_data_link_layer}
+Identified by ethernet address, bounded to physical interface identified by a MAC
+48-bit identifier (HH-HH-HH-HH-HH-HH).
+Inside local network all routing happens at MAC address (IP only outside local network)
+`ifconfig en0'
+
+ethernet cable is a shared bus, so it is supposed to be truted.
+
+% paragraph osi_data_link_layer (end)
+
+\paragraph{Network layer IP} % (fold)
+\label{par:network_layer_ip}
+IPv4 and IPv6
+IP address represent a host, IP dinamically assigned by DHCP server
+
+% paragraph network_layer_ip (end)
+ARP = associate IP address to a MAC address.x`'
+
+ICMP = internet control message protocol
+
+
+stateful protocol (TCP)
+
+stateless protocol (UDP)
+
+
+
+
+\end{document}
+\grid
+\grid
