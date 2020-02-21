@@ -1,0 +1,72 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Formal Methods - 02\_Modeling\_Transistion\_Systems}
+\maketitle
+
+\medskip
+
+% ================ %
+material: 
+\\
+HANDOUTS : \texttt{http://disi.unitn.it/\~{}rseba/DIDATTICA/fm2020/02\_TRANSITION\_SYSTEMS\_HANDOUT.pdf}
+\\
+SLIDES : \texttt{http://disi.unitn.it/\~{}rseba/DIDATTICA/fm2020/02\_TRANSITION\_SYSTEMS\_SLIDES.pdf} 
+\\
+
+\section{Transistion Systems as Kripke Models} % (fold)
+\label{sec:transistion_systems_as_kripke_models}
+\paragraph{Kripke models are used to describe reactive systems:} % (fold)
+\label{par:kripke_models_are_used_to_describe_reactive_systems_}
+\begin{enumerate}
+	\item nonterminating systems with \textbf{infinite} behaviours (ex. communication protocols, hw circuits);
+	\item represent the \textbf{dynamic evolution} of modeled systems;
+	\item a state includes values to state variables, program counters, content of communication channeles.
+	\item \textit{can be animated and validated before their actual implementation}
+\end{enumerate}
+% paragraph kripke_models_are_used_to_describe_reactive_systems_ (end)
+
+\paragraph{Kripke model: formal definition} % (fold)
+\label{par:kripke_model_formal_definition}
+\[
+	<S,I,R,AP,L>	
+\]
+\begin{enumerate}
+	\item $S =$ a \textbf{finite} set of states
+	\item $I =$ set of initial states 
+	\item $R =$ set of transisitions rules $R = S \dot S$
+	\item $AP =$ set of boolean variables 
+	\item $L =$ labeling of the set and variable $L : S = \rightarrow 2^{AP}$ \\
+\end{enumerate}
+The set of transitions $R$ is Total, every state has an outgoing link.\\
+\textbf{In Kripke structures the value of every variable is always assigned in each state.}
+% paragraph kripke_model_formal_definition (end)
+
+
+% section transistion_systems_as_kripke_models (end)
+\section{Languages for Transition Systems} % (fold)
+\label{sec:languages_for_transition_systems}
+
+
+
+% section languages_for_transition_systems (end)
+\section{Properties of Transition Systems} % (fold)
+\label{sec:properties_of_transition_systems}
+
+
+
+% section properties_of_transition_systems (end)
+\end{document}
+\grid
+\grid
