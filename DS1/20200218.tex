@@ -19,28 +19,37 @@
 
 % ========== Begin answering questions here
 \texttt{18/02/2020}
-\section{Synchronization in Distributed Systems} % (fold)
-\label{sec:synchronization_in_distributed_systems}
+\paragraph{Synchronization in Distributed Systems} % (fold)
+\label{par:synchronization_in_distributed_systems}
 Time plays a fundamental role in many applications.
-At some point the clock diverge
+\begin{enumerate}
+	\item Synchronize (physical) clocks to approximate global time
+	\item Abstract time with logical clocks capturing (causal) ordering
+	\item Collect global state
+	\item Coordinate access to shared resources.
+\end{enumerate}
+% paragraph synchronization_in_distributed_systems (end)
 
-\textbf{clock drift} $\rho$ costant of variation of time.\\
-For example \[
-	\rho = 10 ^{-6} \frac{s}{s}
-\] 1s every 11.6 days\\
-\textbf{clock skew} $\delta$ maximum clock drift allowed.\\
+\section{Synchronizing Physical Clocks} % (fold)
+\label{sec:synchronizing_physical_clocks}
+\paragraph{To guarantee synch} % (fold)
+\label{par:to_guarantee_synch}
+\begin{enumerate}
+	\item Maximum \textbf{clock drift} $\rho$ is a costant
+	\item maximum allowed \textbf{clock skew} $\delta$ is a parameter
+	\item if two clocks drift in opposite directions, during a time inteval $\Delta T$ they accumulate a skew of $2\rho \Delta t$, resynch need $\delta / 2 \rho$ seconds.
+\end{enumerate}
 
-\textbf{accuracy}: synchronize all clocks against a single one, which is usually the more accurate\\
-\textbf{agreement} synchroniza all clocks among themselves.\\
-\textbf{Monocity must be preserved}
+Synchroniza all clocks against a single one (accuracy) \textbf{OR} synchronize all clocks among themselves (agreement).
+\textbf{Time monocity must be preserved} (we cannot step backward a clock).
+
 
 \subsection{Protocols} % (fold)
 \label{ssub:protocols}
 \begin{enumerate}
-	\item Server-based soution: periodically each client update himself with a server clock adding the offset $\theta$.
+	\item Server-based soution: periodically each client update himself with a server clock adding the offset $\theta$. \textbf{Problem}: time might run \textbf{backwards} on the client machine, therefore, introduce change gradually; travel time of the message.
 
-	\item Network Time Protocol (NTP): protocol to synch time over large-scale networks \texttt{ntp.org}. The NTP servers are in Hierarchical structure (as DNS). Synchronization mechanisms: multicast, procedure-call mode, symmetric mode
-	Symmetric Mode: server exchange their roles and exchange the time.
+	\item Network Time Protocol (NTP): protocol to synch time over large-scale networks \texttt{ntp.org}. The NTP servers are in Hierarchical structured (as DNS). Synchronization mechanisms: multicast (over LAN), procedure-call mode (server-based), symmetric mode(for higher levels; server exchange their roles and exchange the time).
 \end{enumerate}
 % subsection protocols (end)
 
@@ -49,7 +58,7 @@ For example \[
 \begin{enumerate}
 	\item Often is sufficient to agree on a time, even if it is not accurate.
 	\item what matters is ordering and causality (relative order). (example: allarm -> fire; fire -> allarm).
-	\item if there is no interaction, no sunchronization is required.
+	\item if there is no interaction, no synchronization is required.
 \end{enumerate}
 % subsection observation (end)
 
@@ -69,14 +78,14 @@ A distributed algorithm can be modeled as a collection of distributed automata.
 \paragraph{Histories} % (fold)
 \label{par:histories}
 \begin{enumerate}
-	\item local history: history if a process $p_i$
-	\item partial history: ...
+	\item local history: history of a process $p_i$ is a sequencec of events $h_i = e^0_i e^1_i\ldots$
+	\item partial history ($h^k_i$): up to event $e^{k}_{i}$
 \end{enumerate}
 % paragraph histories (end)
 
 \paragraph{Happens-before} % (fold)
 \label{par:happens_before}
-causality, it is useful only if we don't have global time.
+causality, it is useful only if we don't have global time $e \rightarrow e'$. Can be measured if $e$ and $e'$ are executed by the same process; $e$ is the send and $e'$ is the corresponding receive. Of course it is transitive. If we can not say happens before then it is concurrent.
 % paragraph happens_before (end)
 % section modeling_a_distributed_execution (end)
 
@@ -98,13 +107,14 @@ enable coordination among processes without synchronization of physocal clocks, 
 \paragraph{Scalar Clocks} % (fold)
 \label{par:scalar_clocks}
 How to assign logical clocks in a way that guarantees \textbf{clock consistency}.\\
-\textbf{Definition Scalar logical clocks:} an increasing counter\\
-\textbf{Update rule...} which guarantees clock consistency by design.
+\textbf{Definition Scalar logical clocks:} an increasing counter, each process has its own logical clock, messages carry the timestamp\\
+\textbf{Update rule (+1 if is internal, max(mine,received + 1 if is receive))} which guarantees clock consistency by design.
 % paragraph scalar_clocks (end)
 
 \paragraph{Partial vs Total Order} % (fold)
 \label{par:partial_vs_total_order}
-I can add the name of the process to the time to disambiguate the order of the events.
+Scalar clocks achieve only partial ordering, to reach total ordering we add the process ID to clocks and we use a lexicographic order.
+
 
 \section{Examples} % (fold)
 \label{sec:examples}
