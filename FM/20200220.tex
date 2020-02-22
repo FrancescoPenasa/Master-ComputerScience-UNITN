@@ -18,7 +18,7 @@
 \medskip
 
 % ================ %
-material: 
+lect 02 material 2020/02/20: 
 \\
 HANDOUTS : \texttt{http://disi.unitn.it/\~{}rseba/DIDATTICA/fm2020/02\_TRANSITION\_SYSTEMS\_HANDOUT.pdf}
 \\
@@ -30,12 +30,13 @@ SLIDES : \texttt{http://disi.unitn.it/\~{}rseba/DIDATTICA/fm2020/02\_TRANSITION\
 \paragraph{Kripke models are used to describe reactive systems:} % (fold)
 \label{par:kripke_models_are_used_to_describe_reactive_systems_}
 \begin{enumerate}
-	\item nonterminating systems with \textbf{infinite} behaviours (ex. communication protocols, hw circuits);
-	\item represent the \textbf{dynamic evolution} of modeled systems;
-	\item a state includes values to state variables, program counters, content of communication channeles.
-	\item \textit{can be animated and validated before their actual implementation}
+	\item nonterminating systems with \textbf{infinite} behaviours
+	\item \textbf{dynamic evolution} of modeled systems;
+	\item \textbf{state:} snapshot of the system (value of vars, program counter, etc.)
+	\item \textbf{realistic representation}, the system can be simulated and validated before the implementation
 \end{enumerate}
 % paragraph kripke_models_are_used_to_describe_reactive_systems_ (end)
+
 
 \paragraph{Kripke model: formal definition} % (fold)
 \label{par:kripke_model_formal_definition}
@@ -44,29 +45,151 @@ SLIDES : \texttt{http://disi.unitn.it/\~{}rseba/DIDATTICA/fm2020/02\_TRANSITION\
 \]
 \begin{enumerate}
 	\item $S =$ a \textbf{finite} set of states
-	\item $I =$ set of initial states 
-	\item $R =$ set of transisitions rules $R = S \dot S$
-	\item $AP =$ set of boolean variables 
-	\item $L =$ labeling of the set and variable $L : S = \rightarrow 2^{AP}$ \\
+	\item $I =$ initial states 
+	\item $R =$ set of \textbf{directed} transisitions rules $R = S \dot S$
+	\item $AP =$ \textbf{observable variables} (boolean variables)  
+	\item $L =$ labeling function $L : S = \rightarrow 2^{AP}$; tells us what is the value of the boolean variables for each states 
+	\item $R$ is Total, all states have an outgoing link, we don't consider sink states.
 \end{enumerate}
-The set of transitions $R$ is Total, every state has an outgoing link.\\
+
 \textbf{In Kripke structures the value of every variable is always assigned in each state.}
+\textbf{Each state identifies univocally the values of the atomic propositions which hold there.}
 % paragraph kripke_model_formal_definition (end)
+
+\paragraph{TODO INSERT IMAGE GRAPH} % (fold)
+\label{par:todo_insert_image_graph}
+\[
+	N,T,C == observable\_variables	
+\]
+\begin{enumerate}
+	\item N = not in critical section and not trying to acquire the lock
+	\item turn = who has the rigth to enter the critical section
+	\item arc = step = when one process makes a move
+\end{enumerate}
+A \textbf{path} is an \textbf{infinite} sequence of states
+% paragraph todo_insert_image_graph (end)
+
+\paragraph{Path in a Kripke Model} % (fold)
+\label{par:path_in_a_kripke_model}
+
+A \textbf{path} in a Kripke model $M$ is an infinite sequence of states.  It must start from an initial state and use existing transition rules. 
+\[
+	\pi = s_0, s_1, s_2, \ldots \in S^{\omega}
+\]
+such that $s_0 \in I$ and all other $s_i \in R$ \\
+\textbf{Reachable} if there is a path from the initial state to the target state.\\
+% paragraph path_in_a_kripke_model (end)
+
+\subsection{Composing Kripke Models} % (fold)
+\label{sub:composing_kripke_models}
+
+Complex Models are obtained by composition of smaller ones.
+Both compositions are associative. 
+
+\subsubsection{Asynchronous Composition} % (fold)
+\label{ssub:asynchronous_composition}
+At each time istant, one component is selected to perform a transition (for instance communication protocols).
+The composition is obtained as all the possible interleaving possibilities between two models, \textbf{no contemporary moves}. The time is continous and nothing can happen in the same istant. \textbf{We must be really careful about the shared variables}. The main bounds are about the initial model and the respect to the \textbf{shared}observable variable.
+\[
+	M_1 || M_2 || M_3
+\]
+% subsubsection asynchronous_composition (end)
+\subsubsection{Synchronous Composition} % (fold)
+\label{ssub:synchronous_composition}
+Components evolve in parallel, fixed time slots in which all the component perform a trasition (for instance a sequential hardware circuit).
+The boundaries are the same as the asynchronous state with the only difference about the transition rules.
+\[
+	M_1 \times M_2 \times M_3
+\]
+
+% subsubsection synchronous_composition (end)
+% subsection composing_kripke_models (end)
 
 
 % section transistion_systems_as_kripke_models (end)
 \section{Languages for Transition Systems} % (fold)
 \label{sec:languages_for_transition_systems}
 
+We only reason in therms of evolution of variables, we don't care or need the graph representation. We care about the possible moves.
+A Kripke model is usually presented in a structured language.
+\paragraph{Each component is presented by specifying} % (fold)
+\label{par:each_component_is_presented_by_specifying}
+\begin{enumerate}
+	\item state variables ($AP$, $S$ and the map function $L$)
+	\item initial values for state variables (initial state)
+	\item instruction (transitions)
+\end{enumerate}
+% paragraph each_component_is_presented_by_specifying (end)
+\subsection{SMV (NoSMV and NoXMV)} % (fold)
+\label{sub:smv}\
+No sequence, no implicit order (no program counter), we write the relations.
+\begin{enumerate}
+	\item booleans in many forms
+	\item declarations of state variable; assignment for the initial state; assignment for the transition relation
+	\item allows both synchronous and asynchronous composition (more sync)
+\end{enumerate}
+Big systems are represented in modular parts
+% subsection svm (end)
+\subsection{PROMELA} % (fold)
+\label{sub:promela}
+Sequential execution
+\begin{enumerate}
+	\item C-like
+	\item set of processes that interacts with \textbf{shared variables} and \textbf{communication channels}
+	\item allows both synchronous and asynchronous composition (more async)
+\end{enumerate}
+
+% subsection promela (end)
+\subsection{SDL} % (fold)
+\label{sub:sdl}
+For infinite state machine and usage of continuos time.
+\begin{enumerate}
+	\item booleans in many forms
+	\item allows TIME representations
+	\item represents states, message I/O, conditions, clock operations, subroutines
+	\item allows both synchronous and asynchronous composition (async)
+\end{enumerate}
+% subsection sdl (end)
 
 
 % section languages_for_transition_systems (end)
 \section{Properties of Transition Systems} % (fold)
 \label{sec:properties_of_transition_systems}
+\subsection{Safety Properties} % (fold)
+\label{sub:safety_properties}
+Bad events never happens
+\begin{enumerate}
+	\item Deadlock freedom
+	\item Mutual Exclusion
+\end{enumerate}
+\textbf{Can be refuted by a \textit{finite} behaviour}
+% subsection safety_properties (end)
 
+\subsection{Liveness properties} % (fold)
+\label{sub:liveness_properties}
+Something desiderable will eventually happen (sooner or later)
+\begin{enumerate}
+	\item Starvation Freedom
+\end{enumerate}
+\textbf{Can be refuted by infinite behaviour}: presented typically as a loop.
+% subsection liveness_properties (end)
+
+\subsection{Fairness} % (fold)
+\label{sub:fairness}
+Something desirable will happen infinitely often. Whenever a subroutine takes control, it will always return it.\\
+\textbf{Can be refuted by infinite behaviour}: presented typically as a loop.
+% subsection fairness (end)
 
 
 % section properties_of_transition_systems (end)
+
+
+\section{Questions} % (fold)
+\label{sec:questions}
+\begin{enumerate}
+	\item Is \textbf{turn} an observable variable?
+\end{enumerate}
+% section questions (end)
 \end{document}
 \grid
 \grid
