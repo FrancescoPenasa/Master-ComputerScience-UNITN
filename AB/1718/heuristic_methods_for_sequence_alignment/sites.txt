@@ -1,0 +1,2 @@
+https://blast.ncbi.nlm.nih.gov/Blast.cgi
+https://www.ncbi.nlm.nih.gov/BLAST/tutorial/Altschul-1.html#ref10
