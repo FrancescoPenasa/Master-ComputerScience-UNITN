@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+# clean from latex junk
 local_dir=$(pwd)
 for d in $(find $local_dir -maxdepth 1 -type d)
 do
