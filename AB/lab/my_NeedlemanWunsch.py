@@ -1,10 +1,14 @@
-string_1 = input('Insert string 1: ')
-string_2 = input('Insert string 2: ')
+import sys
+import numpy as np
 
-match = 1
-mismatch = -1
-gap = -2
+seq1 = sys.argv[1]
+seq2 = sys.argv[2]
 
+inital_gap = sys.argv[3]
+if (initial_gap == 'Y' or initial_gap == 'y')
+	initial_gap = True
+else 
+	initial_gap = False
 
 boolean_modify = input('Do you want to modify the std weights: [Y|N] ')
 if (boolean_modify == 'Y' or boolean_modify == 'y'):
@@ -12,13 +16,35 @@ if (boolean_modify == 'Y' or boolean_modify == 'y'):
 	mismatch = float(input('Insert mismatch: '))
 	gap = float(input('Insert gap: '))
 
-def NeedlemanWunsch(seq1, seq2, match, mismatch, gap):
-	M = [seq1.length + 2, seq2.length + 2]
-	M [0,0] = 0
-	M [1,0] = "-"
-	M [0,1] = "-"
-	for i in range(0, seq1.length):
-		M [i+2, 0] = seq1[i]
+class Direction: 
+    left=1 
+    up=2
+    leftUp=3
 
-	for i in range(0, seq2.length):
-		M [0, i+2] = seq2[i]
+def NeedlemanWunsch(seq1, seq2, match, mismatch, gap, initial_gap):
+	S = np.zeros((len(seq1), len(seq2))) # score_matrix 
+	D = np.zeros((len(seq1), len(seq2))) # direction_matrix
+	
+	if (initial_gap):
+		# init first row
+		for i in range(1, len(seq1)):
+	    	M[i][0] = M[i-1][0] + gap
+		# init first column
+		for j in range(1, len(seq2)):
+		    M[0][j] = M[0][j-1] + gap
+
+	# algorithm
+	for i in range(1, len(seq1)):
+	    for j in range(1, len(seq2)):
+	        if seq1[i] == seq2[j]:
+	            match_value = match
+	        else:
+	            match_value = mismatch
+	        
+	        # match or mismatch, gap1, gap2
+	        arr = [] 
+	        arr.append(M[i-1][j-1] + matchCase) 
+	        arr.append(M[i-1][j] + gap)
+	        arr.append(M[i][j-1] + gap)
+	        
+	
