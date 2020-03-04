@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\usepackage{color}
+
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+% R style
+\lstset{frame=tb,
+language=R,
+keywordstyle=\color{blue},
+alsoletter={.}
+}
+
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Algorithms for Bioinformatics - lect 4}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 04}
+\paragraph{} % (fold)
+\label{par:}
+
+Till now, we have talked about global sequence alignment (NW algorithm) and local sequence Alignment (SW algorithm). In both cases we want to minimize a score, $M_{i,j}$.
+
+\paragraph{} % (fold)
+\label{par:}
+Until now the alphabet we have seen is limited to the DNA (ATCG), $match = 1$  $mismatch = -1$ independently from the actualt letters. Both algorithm that we have seen so far are correct, we actually find the maximum score.
+% paragraph  (end)
+
+\begin{enumerate}
+	\item solve pratical problems (so far we are here, NW and SW)
+	\item modeling a biological phenomenom	
+	\item understanding the computation done by the biological system.
+\end{enumerate}
+
+\section{Modeling a biological phenomenom} % (fold)
+\label{sec:modeling_a_biological_phenomenom}
+\texttt{http://xaktly.com/GeneticCode.html} here we can see the abbrevietions for the aminoacid, this means that so far we use only one alphabet but we could use even the aminoacid one.
+% section modeling_a_biological_phenomenom (end)
+
+\begin{lstlisting}
+AUG AUU GGU
+AUG AUU GGC	
+\end{lstlisting}
+this seems different but due to the fact that the last triplet represents the same aminoacid the actual difference is 0.
+With this alphabet we don't expect that the match-mismatch model works in the same optimal way.
+
+\subsection{Substitution matrices} % (fold)
+\label{sub:substitution_matrices}
+\begin{enumerate}
+	\item PAM (1978) \texttt{https://en.wikipedia.org/wiki/Point\_accepted\_mutation} Percent Accepted Mutation.
+	\item BLOSUM 
+\end{enumerate}
+
+
+
+\begin{lstlisting}
+AAU
+AAA
+\end{lstlisting}
+\begin{enumerate}
+	\item Generation
+	\item Conservation (acceptation)
+\end{enumerate}
+
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[scale=0.3]{image.jpg}
+	\caption{For each aminoacid we  have the probability of be substituted by another aminoacid, basically a markov chain.}
+	\label{fig:figure1}
+\end{figure}
+% subsection substitution_matrices (end)
+
+
+
+Let's assume we have this kind of sequence
+
+\begin{lstlisting}
+ACGH DBGH ADIJ CBIJ
+(ACGH)-ABGH-(DBGH) (ADIJ)-ABIJ-(CBIJ)
+(ABGH)-AB**-(ABIJ)
+\end{lstlisting}
+
+\begin{table}[tb]
+	\caption{accepted point mutation}
+	\label{tab:tablename}
+	\centering
+
+	\begin{tabular}{l|cccccccc}
+	\hline
+
+	\hline
+		 & A & B & C & D & G & H & I & J \\
+	\hline
+		A&   &   & 1 & 1 & & & & \\
+		B&   &   & 1 & 1 & & & & \\
+		C& 1 & 1 &  & & & & & \\
+		D& 1 & 1 &  & & & & & \\
+		G&  &  &  & & & & & \\
+		H&  &  &  & & & & & \\
+		I&  &  &  & & & & & \\
+		J&  &  &  & & & & & \\
+	\hline
+
+	\hline
+	\end{tabular}
+\end{table}
+
+\[
+	A_{jk} = \frac{1} {nT} \sum_{T} A_{jk}^{T}
+\]
+\[
+	P_{jk}^{(1)} = m_j \frac{A_jk}{\sum_{h \neq j} A_{jh}}
+\]
+\[
+	P_{jj}^{(1)} = 1 -m_j 
+\]
+\[
+	m_j = \frac{1}{n p_j z} \frac{\sum {l \neq j }A_j l}{\sum_h \sum_{l \neq h} A_{hl} }
+\]
+
+\begin{enumerate}
+	\item $m_j = $ the mutability of the amminoacid $j$ 
+	\item $z$ is a normalizing factor s.t.$ = \sum_{ji}(P_j \mu_j) = \frac{1}{100}$
+\end{enumerate}
+
+The steps we needed were, find probabilities and find the scores.
+\[
+	q_{jk}^{(n)} = P_j p_{jk}^{(n)}
+\]
+\[
+	S_{[j,k]}^n = \lambda log \frac{q_{jk}} {P_j P_k} = \lambda log \frac{P_{jk}^{(n)}}{P_k}
+\]
+j and k are aminoacid, p their propabilities,
+q is the probability that j mutated in a certain way, the score is the comparison.
+
+\[
+	S_{[j,k]}^{(n)} \neq S_{[k,j]} ^{(n)}
+\]
+
+the PAM100 matrix represents 100\% change, the PAM250 matrix represents 250\% change.
+They were determined by the global alignment of sequences that differ by less than 85\%. One PAM represents a 1\% change in all residues or one Point Accepted Mutation per 100 residues
+
+\end{document}
+\grid
+\grid
