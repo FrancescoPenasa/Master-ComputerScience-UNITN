@@ -1,0 +1,209 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\usepackage{color}
+
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+% R style
+\lstset{frame=tb,
+language=R,
+keywordstyle=\color{blue},
+alsoletter={.}
+}
+
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Algorithms for Bioinformatics - lect 4}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\section{Global sequence alignment} % (fold)
+\label{sec:global_sequence_alignment}
+\texttt{https://en.wikipedia.org/wiki/Needleman\%E2\%80\%93Wunsch\_algorithm}
+\subsection{Exercise} % (fold)
+\label{sub:exercise}
+\begin{enumerate}
+	\item We have got two sequences $s_1$ and $s_2$ and the following weights $match = 1$ $mismatch = -1$ $gap = -2$;
+	\item Put the sequences in a matrix like in table~\ref{tab:init_NW};
+	\item Init the first row and the first column like in table~\ref{tab:init_rw_NW}
+	\item Starting from the $0$ on the top-left (with $i=1$ and $j=1$) find the max between the following equations: 
+	\begin{enumerate}
+	 	\item $if\  M[i+1][label] == M[label][j+1]$ $then\ M[i][j] + match$
+	 	\item $if\  M[i+1][label] \neq M[label][j+1]$ $then\ M[i][j] + mismatch$
+	 	\item $M[i][j] + gap$
+ 	\end{enumerate} 
+ 	\item Repeat row to row
+ 	\item Since it is global the best alignment will result in the max score at the bottom right of the matrix.
+\end{enumerate}
+% subsection exercise (end)
+
+\begin{table}[h]
+	\caption{Init table $s_1 = GCATGCU$ $s_2 = GATTACA$}
+	\label{tab:init_NW}
+	\centering
+
+	\begin{tabular}{l|c ccccccc}
+	\hline
+
+	\hline
+		  & - & G & C & A & T & G & C & U \\
+	\hline
+	 	- &   &   &   &   &   &   &   &  \\
+	 	G &   &   &   &   &   &   &   &  \\
+	 	A &   &   &   &   &   &   &   &  \\
+	 	T &   &   &   &   &   &   &   &  \\
+	 	T &   &   &   &   &   &   &   &  \\
+	 	A &   &   &   &   &   &   &   &  \\
+	 	C &   &   &   &   &   &   &   &  \\
+	 	A &   &   &   &   &   &   &   &  \\
+	
+
+	\hline
+	\end{tabular}
+\end{table}
+\begin{table}[h]
+	\caption{Init first row and first column $s_1 = GCATGCU$ $s_2 = GATTACA$}
+	\label{tab:init_rw_NW}
+	\centering
+
+	\begin{tabular}{l|c ccccccc}
+	\hline
+
+	\hline
+		  & - & G & C & A & T & G & C & U \\
+	\hline
+	 	- & 0  & -2& -4& -6& -8&-10&-12&-14\\
+	 	G & -2 &   &   &   &   &   &   &   \\
+	 	A & -4 &   &   &   &   &   &   &   \\
+	 	T & -6 &   &   &   &   &   &   &   \\
+	 	T & -8 &   &   &   &   &   &   &   \\
+	 	A & -10&   &   &   &   &   &   &   \\
+	 	C & -12&   &   &   &   &   &   &   \\
+	 	A & -14&   &   &   &   &   &   &   \\
+	
+
+	\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[h]
+	\caption{First row iteration $s_1 = GCATGCU$ $s_2 = GATTACA$}
+	\label{tab:fstrow_NW}
+	\centering
+
+	\begin{tabular}{l|c ccccccc}
+	\hline
+
+	\hline
+		  & - & G & C & A & T & G & C & U \\
+	\hline
+	 	- & 0  & -2& -4& -6& -8&-10&-12&-14\\
+	 	G & -2 &$\nwarrow 1$ & $\leftarrow -1$ & $\leftarrow -3$ & $\leftarrow -5$ &  $\leftarrow \nwarrow -7$ & $\leftarrow -9$ & $\leftarrow -11$ \\
+
+	 	A & -4 &   &   &   &   &   &   &   \\
+	 	T & -6 &   &   &   &   &   &   &   \\
+	 	T & -8 &   &   &   &   &   &   &   \\
+	 	A & -10&   &   &   &   &   &   &   \\
+	 	C & -12&   &   &   &   &   &   &   \\
+	 	A & -14&   &   &   &   &   &   &   \\
+	
+
+	\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+	\caption{Second row iteration $s_1 = GCATGCU$ $s_2 = GATTACA$}
+	\label{tab:sndrow_NW}
+	\centering
+
+	\begin{tabular}{l|c ccccccc}
+	\hline
+
+	\hline
+		  & - & G & C & A & T & G & C & U \\
+	\hline
+	 	- & 0  & -2& -4& -6& -8&-10&-12&-14\\
+	 	G & -2 &$\nwarrow 1$ & $\leftarrow -1$ & $\leftarrow -3$ & $\leftarrow -5$ &  $\leftarrow \nwarrow -7$ & $\leftarrow -9$ & $\leftarrow -11$ \\
+
+	 	A & -4 & $ \nwarrow \uparrow -1$ &  $\nwarrow 0$ & $\nwarrow 0$ & $\leftarrow -2$ & $\leftarrow -4$ & $\leftarrow -6$ & $\leftarrow -8$ \\
+
+	 	T & -6 &   &   &   &   &   &   &   \\
+	 	T & -8 &   &   &   &   &   &   &   \\
+	 	A & -10&   &   &   &   &   &   &   \\
+	 	C & -12&   &   &   &   &   &   &   \\
+	 	A & -14&   &   &   &   &   &   &   \\
+	
+
+	\hline
+	\end{tabular}
+\end{table}
+
+% section global_sequence_alignment (end)
+\newpage
+\section{Local sequence alignment} % (fold)
+\label{sec:local_sequence_alignment}
+\texttt{https://en.wikipedia.org/wiki/Smith\%E2\%80\%93Waterman\_algorithm}\\
+%https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm
+\texttt{https://www.youtube.com/watch?v=QphFHG9tmOY}\\
+As Needleman Wunsch for global alignment we use a table. There are only three differences:
+\begin{enumerate}
+	\item The table initialization is done with all 0 as in table~\ref{tab:SW_init}
+	\item We have gap penality to incentivize not starting the alignment.
+	\item We search for the max number in the table, we don't look only at the last cell.
+\end{enumerate}
+
+\begin{table}[h]
+	\caption{Smith Waterson Init first row and first column $s_1 = GCATGCU$ $s_2 = GATTACA$}
+	\label{tab:SW_init}
+	\centering
+
+	\begin{tabular}{l|c ccccccc}
+	\hline
+
+	\hline
+		  & - & G & C & A & T & G & C & U \\
+	\hline
+	 	- & 0  & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	 	G & 0  &   &   &   &   &   &   &   \\
+	 	A & 0  &   &   &   &   &   &   &   \\
+	 	T & 0  &   &   &   &   &   &   &   \\
+	 	T & 0  &   &   &   &   &   &   &   \\
+	 	A & 0  &   &   &   &   &   &   &   \\
+	 	C & 0  &   &   &   &   &   &   &   \\
+	 	A & 0  &   &   &   &   &   &   &   \\
+	
+
+	\hline
+	\end{tabular}
+\end{table}
+% section local_sequence_alignment (end)
+
+\newpage
+\section{Substitution Matrices} % (fold)
+\label{sec:substitution_matrices}
+\subsection{PAM} % (fold)
+\label{sub:pam}
+\texttt{https://en.wikipedia.org/wiki/Point\_accepted\_mutation}
+% subsection pam (end)
+
+\subsection{BLOSUM} % (fold)
+\label{sub:blosum}
+\texttt{https://en.wikipedia.org/wiki/BLOSUM}
+% subsection blosum (end)
+% section substitution_matrices (end)
+\end{document}
+\grid
+\grid
