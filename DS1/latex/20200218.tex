@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Distributed System 1}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{18/02/2020}
+\paragraph{Synchronization in Distributed Systems} % (fold)
+\label{par:synchronization_in_distributed_systems}
+Time plays a fundamental role in many applications.
+\begin{enumerate}
+	\item Synchronize (physical) clocks to approximate global time
+	\item Abstract time with logical clocks capturing (causal) ordering
+	\item Collect global state
+	\item Coordinate access to shared resources.
+\end{enumerate}
+% paragraph synchronization_in_distributed_systems (end)
+
+\section{Synchronizing Physical Clocks} % (fold)
+\label{sec:synchronizing_physical_clocks}
+\paragraph{To guarantee synch} % (fold)
+\label{par:to_guarantee_synch}
+\begin{enumerate}
+	\item Maximum \textbf{clock drift} $\rho$ is a costant
+	\item maximum allowed \textbf{clock skew} $\delta$ is a parameter
+	\item if two clocks drift in opposite directions, during a time inteval $\Delta T$ they accumulate a skew of $2\rho \Delta t$, resynch need $\delta / 2 \rho$ seconds.
+\end{enumerate}
+
+Synchroniza all clocks against a single one (accuracy) \textbf{OR} synchronize all clocks among themselves (agreement).
+\textbf{Time monocity must be preserved} (we cannot step backward a clock).
+
+
+\subsection{Protocols} % (fold)
+\label{ssub:protocols}
+\begin{enumerate}
+	\item Server-based soution: periodically each client update himself with a server clock adding the offset $\theta$. \textbf{Problem}: time might run \textbf{backwards} on the client machine, therefore, introduce change gradually; travel time of the message.
+
+	\item Network Time Protocol (NTP): protocol to synch time over large-scale networks \texttt{ntp.org}. The NTP servers are in Hierarchical structured (as DNS). Synchronization mechanisms: multicast (over LAN), procedure-call mode (server-based), symmetric mode(for higher levels; server exchange their roles and exchange the time).
+\end{enumerate}
+% subsection protocols (end)
+
+\subsection{Observation} % (fold)
+\label{sub:observation}
+\begin{enumerate}
+	\item Often is sufficient to agree on a time, even if it is not accurate.
+	\item what matters is ordering and causality (relative order). (example: allarm -> fire; fire -> allarm).
+	\item if there is no interaction, no synchronization is required.
+\end{enumerate}
+% subsection observation (end)
+
+
+\section{Modeling a distributed execution} % (fold)
+\label{sec:modeling_a_distributed_execution}
+A distributed algorithm can be modeled as a collection of distributed automata.
+\paragraph{relevant event in distributed algorithms} % (fold)
+\label{par:relevant_event_in_distributed_algorithms}
+\begin{enumerate}
+	\item send event: \textit{send(m,p)}
+	\item receive event: \textit{receive(m)}
+	\item local event: everything else (set a variable, write a file...)
+\end{enumerate}
+% paragraph relevant_event_in_distributed_algorithms (end)
+
+\paragraph{Histories} % (fold)
+\label{par:histories}
+\begin{enumerate}
+	\item local history: history of a process $p_i$ is a sequencec of events $h_i = e^0_i e^1_i\ldots$
+	\item partial history ($h^k_i$): up to event $e^{k}_{i}$
+\end{enumerate}
+% paragraph histories (end)
+
+\paragraph{Happens-before} % (fold)
+\label{par:happens_before}
+causality, it is useful only if we don't have global time $e \rightarrow e'$. Can be measured if $e$ and $e'$ are executed by the same process; $e$ is the send and $e'$ is the corresponding receive. Of course it is transitive. If we can not say happens before then it is concurrent.
+% paragraph happens_before (end)
+% section modeling_a_distributed_execution (end)
+
+\paragraph{Logical clocks} % (fold)
+\label{par:logical_clocks}
+enable coordination among processes without synchronization of physocal clocks, essetially a counter.
+\textbf{Definition:} Logical clock $LC$ is a map function for the events $e$ of the history $H$ to an element of a time domain $T$
+\[
+	LC : H \rightarrow T
+\]
+\textbf{Clock consistency:} events could be concurrent\[
+	e \rightarrow r' \Rightarrow LC(e) < LC(e')
+\]
+\textbf{Strong clock consistency} events can not be concurrent\[
+	e \rightarrow e' \Leftrightarrow LC(e) < LC(e')
+\]
+% paragraph logical_clocks (end)
+
+\paragraph{Scalar Clocks} % (fold)
+\label{par:scalar_clocks}
+How to assign logical clocks in a way that guarantees \textbf{clock consistency}.\\
+\textbf{Definition Scalar logical clocks:} an increasing counter, each process has its own logical clock, messages carry the timestamp\\
+\textbf{Update rule (+1 if is internal, max(mine,received + 1 if is receive))} which guarantees clock consistency by design.
+% paragraph scalar_clocks (end)
+
+\paragraph{Partial vs Total Order} % (fold)
+\label{par:partial_vs_total_order}
+Scalar clocks achieve only partial ordering, to reach total ordering we add the process ID to clocks and we use a lexicographic order.
+
+
+\section{Examples} % (fold)
+\label{sec:examples}
+\subsection{Totally Ordered Multicast} % (fold)
+\label{sub:totally_ordered_multicast}
+
+% subsection totally_ordered_multicast (end)
+% section examples (end)
+
+% paragraph partial_vs_total_order (end)
+\section{Questions} % (fold)
+\label{sec:questions}
+
+\paragraph{Scalar clock EXERCISE} % (fold)
+\label{par:scalar_clock_exercise}
+put the number on the events...
+% paragraph scalar_clock_exercise (end)
+
+\paragraph{what are the problems on the server-based solutions?} % (fold)
+\label{par:q1}
+\begin{enumerate}
+	\item \textbf{Minor:} There is already a mismatch for the "travel" time, to fix this we can use timestamps T1, T2, T3, T4 to measure the RTT.
+	\item \textbf{Major:} We could broke monotonicity of time, to fix the clock we should slow down until the time is fixed.
+\end{enumerate}
+% q1 (end)
+
+\paragraph{Definition of Happen-before} % (fold)
+\label{par:definition_of_happen_before}
+We say that an event $e$ happens-before an event $e'$, and write $e \rightarrow e'$, if one of the following three cases is true:
+\[
+	\exists p_i \in \prod : e = e_i^r, \ e'= e^s_i,\ r < s
+\]
+\[
+	e = send(m,*) \land e' = receive(m) 
+\]
+\[
+	\exists e'': e \rightarrow e'' \rightarrow e' 
+\]
+% paragraph definition_of_happen_before (end)
+
+
+% section questions (end)
+% section synchronization_in_distributed_systems (end)
+\end{document}
+\grid
+\grid

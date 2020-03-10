@@ -3,7 +3,7 @@
 # of strings that contains any of the characters 
 # "a","e","u".
 f <- function(vec){
-  return(length(grep('a|e|u', vec))) 
+  return(length(grep('a|e|u', vec, ignore.case=TRUE))) 
 }
 
 vector <- c("area","ARE","sir","E","a")

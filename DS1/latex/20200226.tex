@@ -1,0 +1,92 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Distributed System 1 - synch example}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{solo on 26/02/2020}
+\section{Totally ordered Multicast} % (fold)
+\label{sec:totally_ordered_multicast}
+to solve inconsistent problems we need to make sure that everybody agrees on the same order.
+\textbf{totally ordered multicast} delivers messages in the same global order.
+% section totally_ordered_multicast (end)
+
+\subsection{Totally ordered multicast with scalar clocks} % (fold)
+\label{sub:totally_ordered_multicast_with_scalar_clocks}
+\paragraph{Assumptions} % (fold)
+\label{par:assumptions}
+reliable nodes/links and FIFO links (TCP)
+% paragraph assumptions (end)
+\paragraph{Algorithm outline} % (fold)
+\label{par:algorithm_outline}
+\begin{enumerate}
+	\item Messages are sent simultaneously to all nodes
+	\item all messages carry a timestamp with the sender's (scalar) clock
+	\item receivers store all messages in a queue, ordered according to its (logical) timestamp
+	\item a message is delivered to the application only when it is the highest in the queue and all of its acknowledgments have been received. (message delivered when the queue is completed)
+\end{enumerate}
+% paragraph algorithm_outline (end)
+% subsection totally_ordered_multicast_with_scalar_clocks (end)
+
+\paragraph{Causal history of an event $e$} % (fold)
+\label{par:causal_history_}
+  is the set of events that happen-before $e$, plus $e$ itself
+% paragraph causal_history_ (end)
+
+\paragraph{Vector clock} % (fold)
+\label{par:vector_clock}
+associated to event $e$ is a $n$-dimensional vector $VC(e)$ such that
+\[
+	VC(e)[i] = c_i \ \ where\ \ \Theta_i(e) = h^{c_i}_i
+\]
+n = number of processes
+h = the causal history over process $p_i$ \\
+
+\textbf{if you look at the example it is simple}, every process memorizes the time of every other process. 
+% paragraph vector_clock (end)
+
+\section{exercises} % (fold)
+\label{sec:exercises}
+\subsection{First exercise} % (fold)
+\label{sub:first_exercise}
+fatto sul quaderno
+% subsection first_exercise (end)
+\subsection{Secondo exercise} % (fold)
+\label{sub:secondo_exercise}
+\begin{enumerate}
+	\item $P_1 \ receive(m4) == P_1 \ receive(m2) $ both have the same clock but are two distinct events
+	\item $P_2 \ receive(m4) \neq (6,5,5)$
+	\item $P_3 \ send(m2) \neq (6,4,4)$
+\end{enumerate}
+% subsection secondo_exercise (end)
+% section exercises (end)
+
+
+\section{Global sate} % (fold)
+\label{sec:global_sate}
+\paragraph{local state} % (fold)
+\label{par:local_state}
+denoted as $\sigma^k_i$ after the execution of event $e^k_i$
+\paragraph{global state} % (fold)
+\label{par:global_state}
+$n$-tuple of local states, one for each process $\Sigma = (\sigma_1, \ldots, \sigma_n)$
+% paragraph global_state (end)
+% paragraph local_state (end)
+% section global_sate (end)
+\end{document}
+\grid
+\grid

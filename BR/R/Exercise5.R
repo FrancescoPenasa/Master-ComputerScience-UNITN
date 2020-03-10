@@ -15,19 +15,22 @@
 # and then to the 'waiting' (x axis) and 'eruptions' (y axis) vectors in the 'faithful' dataset.
 
 drawRegressionLine <- function(x, y){
-  plot(x,y)
-  intercept <- lm(y~x)
-  coef <- coef(intercept)
-  abline(intercept, col="red", lwd=2)
-  abline(coef, col="red", lwd=2)
+  # with the x and y coordinates, first produce a scatterplot
+  plot(x,y, main="scatterplot", xlab="Variable x", ylab="Variable Y", pch=19, col="blue")
   
-  return(coef)
+  # regress the y variable on the x variable.
+  linearModel <- lm(y~x)
+  
+  # record the intercept and slope of the linear relationship between x and y 
+  coefficients <- coef(linearModel)
+  
+  # add a regression line to the scatter plot
+  abline(linearModel, col="red", lwd=2)
+  # abline(coefficients[1], coefficients[2])
+  return(coefficients)
 }
 
-library(MASS)
-x = trees$Height
-y = trees$Volume
-
-drawRegressionLine(x, y)
+drawRegressionLine(trees$Height, trees$Volume)
+drawRegressionLine(faithful$waiting, faithful$eruptions)
 
 #scatter.smooth(x=x, y=y, main="Dist ~ Speed")

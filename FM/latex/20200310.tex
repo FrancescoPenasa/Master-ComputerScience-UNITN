@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Formal methods - Temporal logic}
+\maketitle
+
+\medskip
+
+% === Starting point === %
+\texttt{2020 03 10}
+\section{Summary} % (fold)
+\label{sec:summary}
+We have seen the behaviour of Kripke structure as \textbf{infinite set of computation paths} and \textbf{infinite computation tree}.
+\paragraph{LTL} % (fold)
+\label{par:ltl}
+extension of boolean logic with X(next) U(until) G(globally) F(finally) R(releases, give the permission to be false).
+LTL properties are evaluated over single paths.
+$G\phi$ is stronger than anyone.
+% paragraph ltl (end)
+% section summary (end)
+
+\subsection{LTL tableaux rules} % (fold)
+\label{sub:ltl_tableaux_rules}
+Let $\phi _1$ and $\phi_2$ be LTL formulae:
+\[
+	G\phi _1 \Leftrightarrow (\phi _1 \lor XF\phi _1)
+\]\[
+	F\phi _1 \Leftrightarrow (\phi _1 \land XG\phi _1)
+\]\[
+	\phi _1 U \phi_2 \Leftrightarrow (\phi_2 \lor (\phi _1 \land X(\phi _1 U \phi_2)))
+\]\[
+	\phi _1 R \phi_2 \Leftrightarrow (\phi_2 \land (\phi _1 \lor X(\phi _1 R \phi_2)))
+\]
+If appllied recursively, rewrite an LTL formula in terms of atomic and $X$-formulas:
+\[
+	(pUq)\land(G\lnot p) \Rightarrow (q \lor (p \land X(p U q))) \land (\lnot p \land XG \lnot p)
+\]
+Extremely important.
+\subsection{Some property} % (fold)
+\label{sub:some_property}
+\begin{enumerate}
+	\item Fairness 
+\end{enumerate}
+
+\[
+	G(T \rightarrow)
+\]
+% subsection some_property (end)
+% subsection ltl_tableaux_rules (end)
+\section{Computation Tree Logic CTL} % (fold)
+\label{sec:computation_tree_logic_ctl}
+\subsection{Syntax} % (fold)
+\label{sub:syntax}
+An atomic proposition is a CTL formula, as all his combinations plus the combination with the 8 temporal operators in CTL, AX, AU, AG, AF, EX, EU, EG, EF.\\
+$A = $ Necessarily, it applies to all path starting from the current point
+$E = $ Possibly, it applies to at least one path starting from the current point.
+\textbf{Remember} that in this case we thinking in tree, when we say every possible successor we consider all the successors of a certain node.
+\begin{enumerate}
+	\item AX necessarily next
+	\item EX possibly next
+	\item AF necessarily in the future (inevitably)
+	\item EF possibly in the future (possibly)
+	\item AG always true  in all paths
+	\item $EG\phi$ there is at least one path where $\phi$ is always true.
+	\item $A(\phi U \psi)$ no matter what sooner or later in every path $\phi$ will hold.
+	\item $E(\phi U \psi)$ 
+\end{enumerate}
+The figure is clearly self explaining. 03 60/108 
+While in LTL we use a state in a given path for the definition, here we usa a given state $s_i$ and a given model $M$ (situation).
+To sum up CTL properties are evaluated over trees. Universal modalities(AF,AG,AX,AU), Existential modalities(EF,EG,EX,EU).
+\textbf{It is based on the pair $M,s_i$ called also a "situation".}\\
+The CTL model checking problem $M \models  \phi$
+$M,s \models \phi$ \textbf{for every initial state} $s \in l$ of the Kripke structure.
+% subsection syntax (end)
+\subsection{CTL tableaux rules} % (fold)
+\label{sub:ctl_tableaux_rules}
+Let $\phi_1$ and $\phi_2$ be CTL formulae:
+\begin{enumerate}
+	\item $AF\phi_1 \Leftrightarrow (\phi_1 \lor AXAF \phi_1)$
+	\item $AG\phi_1 \Leftrightarrow (\phi_1 \land AXAG \phi_1)$ 
+	\item $A(\phi_1 U \phi_2) \Leftrightarrow (\phi_2 \lor (\phi_1 \land AXA (\phi_1 U \phi_2))$
+	\item $EF\phi_1 \Leftrightarrow (\phi_1 \lor EXEF \phi_1)$
+	\item $EG\phi_1 \Leftrightarrow (\phi_1 \land EXEG \phi_1)$ 
+	\item $E(\phi_1 U \phi_2) \Leftrightarrow (\phi_2 \lor (\phi_1 \land EXE (\phi_1 U \phi_2))$
+\end{enumerate}
+Recursive definitions of AF, AG, AU, EF, EG, EU.
+If appllied recursively, rewrite a CTL formula in terms of atomic, AX- and EX- formulas:
+\[
+	A(pUq) \land (EG\lnot p) \Rightarrow (q \lor (p \land AXA(pUq))) \land (\lnot p \land EXEG \lnot p)
+\]
+% subsection ctl_tableaux_rules (end)
+% section computation_tree_logic_ctl (end)
+
+\subsection{Examples} % (fold)
+\label{sub:examples}
+\paragraph{} % (fold)
+\label{par:}
+TODO: add the figure \\
+Mutual exclusion
+\[
+	M \models AG \lnot (C_1 \land C_2) ?
+\] YES\\
+
+Liveness
+\[
+	M \models AG (T_1 \rightarrow AF\ C_1) ?
+\]
+YES \\
+
+Fairness
+\[
+	M \models AGAF\ C_1 ?
+\]
+NO \\
+
+Fairness(2)
+\[
+	M \models AGAF\ turn=0 ?
+\]
+NO \\
+
+Blocking
+\[
+	M \models AG (N_1 \rightarrow EF\ T_1) ?
+\]
+YES \\
+
+Blocking(2)
+\[
+	M \models AG (N_1 \rightarrow AF\ T_1) ?
+\]
+NO \\
+
+example 6
+\[
+	M \models EG\ N_1?
+\]
+YES \\
+
+example 7
+\[
+	M \models AFEG\ N_1?
+\]
+YES \\
+
+If we use $E$ we can observe that there is not a corresponding LTL formula.
+% subsection examples (end)
+
+
+\end{document}
+\grid
+\grid
