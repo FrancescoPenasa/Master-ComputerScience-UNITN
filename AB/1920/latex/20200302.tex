@@ -1,0 +1,133 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\usepackage{amsmath,amssymb}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Algorithms for Bioinformatics}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 - 03 - 02}
+\paragraph{Needleman-Wunsch} % (fold)
+\label{par:needleman_wunsch}
+
+% paragraph needleman_wunsch (end)
+\[	s_{ij} 
+	\begin{cases}
+		 \emptyset   	& \mbox{if } i=1 j=1 \\
+		 s_{i, j-1} + g &   \mbox{if } i=1 j>1 \\
+		 s_{i-1, j} + g &  \mbox{if } i>1 j=1 \\
+		 max(s_{i-1, j-1} + M_{i,j}, s_{i-1, j} + g, s_{i, j-1} + g)  \\
+	\end{cases}
+\]
+\[
+	g = gap\_value 
+\]
+\[
+	m = match(or\ mismatch)\_value
+\]
+
+
+\paragraph{Example} % (fold)
+\label{par:example}
+example1\\
+$seq1 = a \ c \ g \ t \ c $\\
+$seq2 = t \ g \ a \ c $ \\
+\[
+ 	score = -2
+ \] 
+\[
+	acgtc
+\]
+\[
+	t\_gac
+\]
+% paragraph example (end)
+
+\paragraph{If we prefare a gap at the beginning (or end)\\} % (fold)
+\label{par:if_i_don_t_care_about_a_gap_at_the_beginning}
+We should put at $M[0][j] = 0$ $M[i][0] = 0$, so we don't pay gap at the extremes of the sequences.\\
+
+% paragraph if_i_don_t_care_about_a_gap_at_the_beginning (end)
+
+
+\newpage
+\section{Local alignment - Smith-Waterman algorithm} % (fold)
+\label{sec:local_alignment}
+It's a problem that answers to a different need.
+With local alignment i don't care at all about the gaps at the beginning or at the end.
+So the matrix is initializated all at 0 values.
+
+
+\texttt{https://it.wikipedia.org/wiki/Algoritmo\_di\_Smith-Waterman}\\
+The only difference is that we build a 
+\[ H = matrix\]
+\[	H_{i,0} = \emptyset \ \ \ 0 \leq i \leq n \]
+\[ H_{0,j} = \emptyset \ \ \ 0 \leq j \leq m  \]
+\[
+	H(i,j) = max 
+	\begin{cases}
+		0   	\\
+		H_{i-1,j-1} + w(a_i, b_i) & Match/Mismatch \\
+		H_{i-1,j} + w(a_i, -) & Insertion \\
+		H_{i,j-1} + w(-, b_i) & Deletion \\
+	\end{cases}
+\]
+\[ w = gap\_weigth\]
+In the original paper
+\[
+	w = 1 + \frac{1}{3} - k 
+\]
+
+\paragraph{example\\} % (fold)
+\label{par:example}
+
+\begin{itemize}
+	\item $match = 1 $
+	\item $mismatch = -1$
+\end{itemize}
+
+\begin{table}[h]
+\begin{tabular}{lllllll}
+- & - & a & c & g & t & c \\
+- & 0 & 0 & 0 & 0 & 0 & 0 \\
+t & 0 & 0 & 0 & 0 & $\nwarrow 1$ & $\nwarrow 0 $\\
+g & 0 & 0 & 0 & $\nwarrow 1$ & $\nwarrow 0$ & 0   \\
+a & 0 & $\nwarrow 1$ & 0 & 0 & $\nwarrow 0$ & 0 \\
+c & 0 & 0 & $\nwarrow 2$ & $\leftarrow 0.66$  & $\leftarrow 0.33$ & $\nwarrow 1$\\  
+\end{tabular}
+\end{table}
+
+find H.index(max(H)) and rebuild the sequence through the arrows.\\
+\paragraph{} % (fold)
+score = 2\\
+\texttt{\_ \_acgtc\\}
+\texttt{tgac\\}
+
+\paragraph{} % (fold)
+score = 1\\
+\texttt{acgtc\\}
+\texttt{\_ \_tgac\\}
+
+\paragraph{} % (fold)
+score = 1\\
+\texttt{acgtc\\}
+\texttt{\_ \_ \_tgac\\}
+
+% paragraph example (end)
+% section local_alignment (end)
+\end{document}
+\grid
+\grid
