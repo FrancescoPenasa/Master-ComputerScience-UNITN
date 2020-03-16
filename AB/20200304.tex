@@ -155,6 +155,33 @@ q is the probability that j mutated in a certain way, the score is the compariso
 the PAM100 matrix represents 100\% change, the PAM250 matrix represents 250\% change.
 They were determined by the global alignment of sequences that differ by less than 85\%. One PAM represents a 1\% change in all residues or one Point Accepted Mutation per 100 residues
 
+
+\subsubsection{BLOSUM} % (fold)
+\label{ssub:blosum}
+While PAM works with trees, BLOSUM works with \textbf{BLOCKS!}\\
+\textbf{BLOCKS:} sequences with a level of similarity put togheter through clustering techniques and then we build some kind of statistic of elements in the same cluster.
+The similarity is give with a percentage (62 is the at-least 62 similarity used for the clusters.)
+% subsubsection blosum (end)
+
+\begin{table}[h]
+	\caption{relation between results of BLOSUM and PAM}
+	\label{tab:relationPAMandBLOSUM}
+	\centering
+
+	\begin{tabular}{l|cc}
+	\hline
+
+	\hline
+	& \textbf{PAM} & \textbf{BLOSUM}  \\
+	\hline
+		20\% & 250 & 45\\
+		30\% & 160 & 62\\
+		40\% & 120 & 80\\
+	\hline
+
+	\hline
+	\end{tabular}
+\end{table}
 \end{document}
 \grid
 \grid

@@ -1,0 +1,302 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\usepackage{color}
+
+\lstset{frame=tb,
+language=R,
+keywordstyle=\color{blue},
+alsoletter={.}
+}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Biological resources - lect 4 - lab 1}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\section{Matrix} % (fold)
+rectangular table of data of the same type
+\label{sec:matrix}
+\begin{lstlisting}[language=R]
+# matrix (vector, nrow, ncol) [row, colmn] dimnames == names of row and column
+matrix(1:9, nrow = 3, ncol =3, dimnames = list(c(``X'', ``Y'', ``Z''), c(``A'', ``B'', ``C'')))
+
+# update names
+colnames(x) = c(``a'',``b'',``c'')
+rownames(x) = c(``a'',``b'',``c'')
+
+# update rows or columns
+cbind(c(1,2,3),c(4,5,6))
+rbind(c(1,2,3),c(4,5,6))
+
+# change the dim of a vector of a matrix
+dim(x) <- c(2,3)
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=R]
+m <- cbind(c(1,2,3), c(1,2,3), c(1,2,3))
+v <- c(2,4,6)
+
+m*2   # scalar product
+m*v   # scalar product
+m*m   # scalar product
+v*m   # scalar product
+m%*%v # dot product
+m%*%m # dot product
+\end{lstlisting}
+
+\section{Lists} % (fold)
+\label{sec:lists}
+ordered collection of data or arbitrary types
+\begin{lstlisting}[language=R]
+doe <- list("john", 28, F)
+doe
+
+doe <- list(name="john", age=28, married=F)
+doe$name
+
+unlist(doe)
+doe
+\end{lstlisting}
+
+\section{Data Frames} % (fold)
+\label{sec:data_frames}
+data frame, excel table.
+Rectangular table with rows and columns BUT data within each column has the same type. but different columns may have different types.
+\begin{lstlisting}[language=R]
+d <- data.frame(n1 = c(3,2,1), n2=c("a","b", "c"), n3=c(T,T,F))
+d
+class(d)
+typeof(d)
+
+# to access use parenthesis, using index or the name
+d[3,2]
+d["1", "n2"] # first row and second column
+d[,"n2"] # just the second column
+
+# to keep the structure, be careful about the DROP!
+d[,2, drop=FALSE]
+d["1" , , drop=FALSE]
+
+# more complex subsetting
+m[1:2, c(1,3)]
+m[which(m[,1] > 1), ]
+
+# update values through subsetting
+d [1,1] <- 5
+d [1,] <- c(5, "S", FALSE)
+
+# access list elem
+doe[1] = "you"
+doe$name = "yourmother"
+\end{lstlisting}
+
+\section{Levels} % (fold)
+\label{sec:levels}
+Careful about levels!	 
+\begin{enumerate}
+	\item \textit{character} is your basic string data structure.
+	\item \textit{factor} is something important for statistics.
+\end{enumerate}
+
+\begin{lstlisting}[language=R]
+
+
+\end{lstlisting}
+
+
+\section{Program time} % (fold)
+\label{sec:program_time}
+\subsection{Branching} % (fold)
+\label{sub:branching}
+\begin{lstlisting}[language=R]
+x <- c(1,2,3)
+if (any(x>2)){
+	x <- x+1
+} else {
+	x <- x+2
+}
+\end{lstlisting}
+% subsection branching (end)
+
+\subsection{Loops} % (fold)
+\label{sub:loops}
+\begin{lstlisting}[language=R]
+for(i in 1:10){
+	print(i*i)
+}
+
+i <- 1
+while(i<=5){
+	print(i*i)
+	i = i+ sqrt(i)
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=R]
+# apply, sapply, lapply
+x <- matrix(1:9, nrow = 3, ncol =3, dimnames = list(c("X", "Y", "Z"), c("A", "B", "C")))
+
+# apply(arr, margin, fct)
+
+# sum all rows
+apply(x, 1, sum)
+
+# sum all columns 
+apply(x, 2, sum)
+
+# lapply: generization for lists
+lapply
+
+
+# sapply: create a data structure that it is the simplest as possible
+li <- list("t", "s", "q")
+sapply(li, toupper)
+li
+
+fct <- function(x){ return(c(x, x*x, x*x*x))}
+sapply(1:5, fct)
+\end{lstlisting}
+% subsection loops (end)
+
+\section{Import data} % (fold)
+\label{sec:import_data}
+\begin{lstlisting}[language=R]
+x <- read.delim("filename.txt")
+write.table(x, file="s")
+
+# read csv
+csv <- read.csv(file)
+\end{lstlisting}
+
+\paragraph{String manipulation} % (fold)
+\label{par:string_manipulation}
+
+\begin{lstlisting}[language=R]
+lines <- readLines("Table.txt")
+strsplit(lines[[1]], "\t")
+
+writeLines(x, "~/Test.txt", sep="\t")
+\end{lstlisting}
+
+\section{Storing data} % (fold)
+\label{sec:storing_data}
+
+\begin{lstlisting}[language=R]
+save(x, file="x.RData")
+\end{lstlisting}
+
+% section storing_data (end)
+
+\section{Plot} % (fold)
+\label{sec:plot}
+plot()
+\begin{lstlisting}[language=R]
+x <- seq(-pi, pi, -.1)
+plot(x, sin(x))
+
+x <- c(1, 3, 5, 7, 10, 4, 1)
+barplot(x)
+
+x <- c(1, 3, 5, 7, 10, 4, 1)
+y <- c(1, 3, 5, 7, 10, 4, 1)+3
+boxplot(x, y)
+
+# scatter plot
+plot(x,y)
+
+# ggplot to see more
+\end{lstlisting}
+
+% section plot (end)
+
+
+\section{Basic statistic in R} % (fold)
+\label{sec:basic_statistic_in_r}
+\paragraph{Qualitative data} % (fold)
+\label{par:qualitative_data}
+\begin{lstlisting}[language=R]
+# import package
+library(MASS)
+# watch dataset head
+head(painters)
+
+# project the distribution of elements
+table(painters$School)
+
+pie(table(painters$School))
+
+
+# complicate this, count the occurencies of the compose the data
+table(painters$School, painters$Composition)
+\end{lstlisting}
+
+\paragraph{Quantitative} % (fold)
+\label{par:quantitative}
+\begin{lstlisting}[language=R]
+library(MASS)
+head(faithful, n=3)
+
+duration = faithful$eruption
+stuff...
+
+
+plot(faithful$eruptions, faithful$waiting)
+\end{lstlisting}
+
+\paragraph{Statistic tools} % (fold)
+\label{par:statistic_tools}
+\begin{enumerate}
+	\item mean
+	\item median	
+	\item quartile
+	\item ...
+	\item ...
+\end{enumerate}
+
+\begin{lstlisting}[language=R]
+# perform correlation coefficient
+cor.test(faithful$eruptions, faithful$waiting)
+\end{lstlisting}
+
+\paragraph{Probability distributions} % (fold)
+\label{par:probability_distributions}
+\begin{lstlisting}[language=R]
+# normal distribution
+vals <- rnorm(1200, mean=72, sd=15.2)
+hist(vals)
+\end{lstlisting}
+
+% paragraph probability_distributions (end)
+
+% paragraph statistic_tools (end)
+
+% paragraph quantitative (end)
+
+% section basic_statistic_in_r (end)
+
+
+
+\paragraph{help} % (fold)
+\label{par:help}
+help(function)
+? function
+\texttt{cran} official repository
+\texttt{bioonductor} biology related repository
+% paragraph help (end)
+\end{document}
+\grid
+\grid
