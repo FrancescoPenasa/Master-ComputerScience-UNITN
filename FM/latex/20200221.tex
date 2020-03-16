@@ -1,0 +1,152 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Formal Methods - 03\_Temporal\_Logics}
+\maketitle
+
+\medskip
+
+% ================ %
+material lect 03 2020/02/21: 
+\\
+HANDOUTS : \texttt{http://disi.unitn.it/\~{}rseba/DIDATTICA/fm2020/03\_TEMPORAL\_LOGICS\_HANDOUT.pdf}
+\\
+SLIDES : \texttt{http://disi.unitn.it/\~{}rseba/DIDATTICA/fm2020/03\_TEMPORAL\_LOGICS\_SLIDES.pdf}
+\\
+\section{Boolean logic} % (fold)
+\label{sec:boolean_logic}
+TRUE; FALSE;
+\begin{enumerate}
+	\item Boolean formula: $\top = true$  $\bot = false$
+	\item Atoms($\phi$): the set of atoms occurring in $\phi$
+	\item Literal
+	\item Clause $\lor _j l_j$ (disjunction)
+	\item Cube $\land _j l_j$ (conjunction)
+\end{enumerate}
+\[
+	(A_1 \rightarrow A_2) \leftrightarrow (\lnot A_1 \lor A_2)
+\]
+\[
+	XOR \Rightarrow \lnot(A_1 \leftrightarrow A_2) \Leftrightarrow (A_1 \lor A_2) \land (\lnot A_1 \lor \lnot A_2)
+\]
+Directed Acyclic Graph (DAG) representation of boolean formulas can be up to exponentially smaller than trees.
+
+\subsection{Basic notation \& definitions} % (fold)
+\label{sub:basic_notation_&_definitions}
+
+% subsection basic_notation_&_definitions (end)
+\paragraph{Total truth assignment:} % (fold)
+\label{par:total_truth_assignment}
+all atoms have to be assigned
+% paragraph total_truth_assignment (end)
+
+\paragraph{Partial Truth assignment} % (fold)
+\label{par:partial_truth_assignment}
+lazy evaluation of boolean, we just require to have the atoms needed for the satisfiability about the others we don't care. Actually, all of his extensions to total truth assignment satisfy the formula.
+% paragraph partial_truth_assignment (end)
+$\phi$ is \textbf{satisfiable} iff $\mu \models \phi$ for some $\mu$
+$\phi _1$ \textbf{entails} $\phi _2$ ($\phi _1 \models \phi _2$): iff $\mu \models \phi _1 \Rightarrow \mu \models \phi _2$ for every $\mu$
+$\phi$ \textbf{is entails} ($\models \phi$): iff $\mu \models \phi$ for every $\mu$
+$\phi$ is valid $\Leftrightarrow \lnot \phi$ is not satisfiable 
+
+\subsection{Equivalence and equi-satifsfiability} % (fold)
+\label{sub:equivalence_and_equi_satifsfiability}
+When we use \textbf{validity-preserving trasformation} \\
+$\phi _1 $ and $\phi _2$ are \textbf{equivalent} iff for \textbf{every} $\mu$, $\mu \models \phi _1$ iff $\mu \models \phi _2$ \\
+
+When we use \textbf{satisfiability-preserving trasformation} \\
+$\phi _1 $ and $\phi _2$ are \textbf{equi-satisfiable} iff exists $\mu _1$ s.t. $\mu _1 \models \phi _1$ iff exists $\mu _2$ s.t. $\mu _2 \models \phi _2$\\
+equi-satisfiable tells us nothing about the relations of the two models. 
+% subsection equivalence_and_equi_satifsfiability (end)
+
+\subsection{Complexity} % (fold)
+\label{sub:complexity}
+For $N$ variables, there are up to $2^N$ truth assignments to be checked
+% subsection complexity (end)
+
+\subsection{POLARITY} % (fold)
+\label{sub:polarity}
+intuition: $\phi _1$ occurs positively [negatively] in $\phi$ iff it occurs under
+the scope of an (implicit) even [odd] number of negations.
+\textbf{If we transform the formula, we watch where if there is a lnot or if it is positive.}\\
+\textbf{Polarity: the number of nested negations modulo 2}
+
+
+% subsection polarity (end)
+\subsection{Substitution principle} % (fold)
+\label{sub:substitution_principle}
+\[
+	\phi[\phi _1 | \phi _2]	
+\]
+we substitute in $\phi$, $\phi _2$ over all occurrences of $\phi _1$.\\
+\begin{enumerate}
+	\item if equivalent then guess, it is easy
+	\item if entails, then it entails but only if applied on something that occurs only positively.
+\end{enumerate}
+
+
+\subsubsection{Negative normal form (NNF)} % (fold)
+\label{ssub:subsubsection_name}
+If it is formed only by $\land$ and $\lor$ to literals
+\begin{enumerate}
+	\item 1) substitute all implications ($\rightarrow$ and $\leftrightarrow$)
+	\item 2) push down negations to the literals $\lnot(A_1 \lor A_2) \Rightarrow (\lnot A_1 \land \lnot A_2)$
+\end{enumerate}
+
+The reduction to NNF is linear if it is represented as a DAG and the equivalence is preserved.
+
+
+\subsubsection{Conjunctive normal form (CNF)} % (fold)
+\label{ssub:cnf}
+\[
+	\land^{L}_{i=1}\lor^{Ki}_{j_i=1} l_{j_i}
+\]
+
+\paragraph{Classic CNF conversion} % (fold)
+\label{par:classic_cnf_conversion}
+\begin{enumerate}
+	\item convert to NNF
+	\item apply recursively the Demorgan's Rule: \[
+		(\phi _1 \land \phi _2 )\lor \phi _3 \Rightarrow (\phi _1 \lor \phi _3) \land (\phi _2 \lor \phi _3)
+	\]
+	\item exponential time
+	\item but equivalent
+\end{enumerate}
+% paragraph classic_cnf_conversion (end)
+
+\paragraph{Labeling CNF conversion} % (fold)
+\label{par:labeling_cnf_conversion}
+We use some alias to reduce the complexity
+
+\begin{enumerate}
+	\item linear time
+	\item equi-satisfiable
+\end{enumerate}
+Of course further optimizations can be executed.
+% paragraph labeling_cnf_conversion (end)
+
+
+% subsubsection cnf (end)
+% subsection substitution_principle (end)
+
+
+% section boolean_logic (end)
+
+\section{Questions} % (fold)
+\label{sec:questions}
+POLARITY third point slide 14/108
+% section questions (end)
+\end{document}
+\grid
+\grid

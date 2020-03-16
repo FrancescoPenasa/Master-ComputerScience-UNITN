@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Distributed System 1}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+Internet is a big distributed system. \\
+\texttt{gianpietro.picco@unitn.it disi.unitn.it/\~{}picco DOL}\\
+\texttt{davide.vecchia@unitn.it TA}
+
+
+\section{Definition}		
+\begin{enumerate}
+	\item concurrency
+	\item absence of a global clock
+	\item absence of a shared memory
+	\item independent (and partial) failures
+\end{enumerate}
+
+failure probability: $n$ dependent hosts, $p$ probability of failure
+$\rightarrow$ availability $(1-p)^n$
+
+failure probability: $n$ independent hosts, $p$ probability of failure
+$\rightarrow$ availability $1-p^n$
+
+\section{Security} % (fold)
+\label{sec:security}
+\begin{enumerate}
+	\item confidentiality
+	\item integrity
+	\item availability
+\end{enumerate}
+% section security (end)
+
+\section{Scalability} % (fold)
+\label{sec:scalability}
+\begin{enumerate}
+	\item increase number of users, hosts, or resources
+	\item tradeoff between scale and performance
+\end{enumerate}
+% section scalability (end)
+
+
+\section{Transparency} % (fold)
+\label{sec:transparency}
+Hide differences with respect to a centralized system
+% section transparency (end)
+
+
+\section{Distributed Consensus} % (fold)
+\label{sec:distributed_consensus}
+It is impossible to design an algorithm to guarantee success or no attack if the messenger can be lost.
+% section distributed_consensus (end)
+
+\end{document}
+\grid
+\grid

@@ -1,0 +1,104 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Bioinformatics Resources - Introduction to Biological Databases}
+\maketitle
+
+\medskip
+
+% ==========
+\texttt{2020 03 12}
+Amino acid sequences (DNA/RNA), protein sequences and more complex data stored efficiently in databases to be accessible by who needs them to analyze data and generate new knowledge.
+
+\begin{enumerate}
+	\item Primary databases: sequences of nucleotides and aminoacids
+	\item Derived and specialized databases (protein domains, structures, genes...)
+\end{enumerate}
+Information gathered through literature, lab analyses and bioinformatics analyses.
+Each database is characterized by a central biological element.
+In primary data banks \textbf{each element is uniquely identified} by an accession number.
+% paragraph biological_data (end)
+
+\begin{enumerate}
+	\item Sequences of nucleotides are represented by \textbf{4 characters} strings.
+	\item Sequences of amino acids are represented by \textbf{20 characters} strings.
+\end{enumerate}
+$ACGT = DNA$ $ACGU = RNA$ amino acids are represented by a triplet of DNA alphabet, mapped into a new character.
+
+\paragraph{Primary datatbases} % (fold)
+\label{par:primary_datatbases}
+data format differs
+\begin{enumerate}
+	\item GenBank: just store and arachive only nucleotide sequences. Every GenBank record is identified uniquely by the \textbf{ACCESSION and VERSION} codes.
+	\item EMBL datalibrary
+	\item DDBJ
+\end{enumerate}
+% paragraph primary_datatbases (end)
+
+\paragraph{Derived data banks} % (fold)
+\label{par:derived_data_banks}
+\begin{enumerate}
+	\item RefSeq: curated and not redundant collection of DNA, RNA and protein sequences.
+\end{enumerate}
+% paragraph derived_data_banks (end)
+
+\textbf{All NCBI databases are accessible throught a nuque search engine called EWntrez} \texttt{https://www.ncbi.nlm.nih.gov/search/}
+
+\paragraph{Genome browser} % (fold)
+\label{par:genome_browser}
+Allow us to browese data at various detail levels.
+
+\subparagraph{Reading the gene structure} % (fold)
+\label{subp:reading_the_gene_structure}
+\begin{enumerate}
+	\item Horizontal line with arrows : \textbf{INTRON}
+	\item Dark block: \textbf{EXON}	
+	\item Thick and arrowless lines: \textbf{UTR}
+\end{enumerate}
+% subparagraph reading_the_gene_structure (end)
+% paragraph genome_browser (end)
+
+\section{Exercises} % (fold)
+\label{sec:exercises}
+\begin{enumerate}
+	\item Display the RARA gene with the browser. How many alternative transcripts does it have? \textbf{2}
+	\item Considering the first transcript, how many introns and exons? \textbf{8 ; 9 }
+	\item Now add to the displayed tracks the GC-percent track (it shows the percentage of GC bases along the sequence). Drag it and move it just under the sequence. \textbf{Mapping and Sequencing GC percent dense}
+	\item Now hide the alignment track which is shown by default. \textbf{boh}
+	\item Zoom out on the 5’UTR region of the transcript and check if there are any known SNPs in that region.
+\end{enumerate}
+\begin{enumerate}
+	\item We want to retrieve the 3’UTR sequence for our gene, RARA
+	\item \texttt{http://genome.ucsc.edu/cgi-bin/hgTables}
+	\item identifiers paste list -> RARA
+	\item output format -> sequence, genomic
+	\item change some things and submit
+\end{enumerate}
+ 
+\begin{enumerate}
+	\item Display the KRAS gene with the browser. How many alternative transcripts does it have ? Considering the first transcript, how many introns and exons? 4; 5; 6
+	\item Now add the 1000 Genomes – EUR common variants track to the display. Are there 5'UTR variants in KRAS? 
+	\item Now zoom to the second exon of the first isoform of KRAS. How many missense variants are there ?
+\end{enumerate}
+
+\begin{enumerate}
+	\item Get the Ensembl ID and MGI symbol for all mouse genes on chromosome 19. How many genes are there ?  
+	\item Now limit this to protein coding genes. How many genes are there ? 
+	\item Now save the results to a comma-separated values fil
+\end{enumerate}
+% section exercises (end)
+
+\end{document}
+\grid
+\grid

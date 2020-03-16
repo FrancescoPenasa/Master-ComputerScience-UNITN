@@ -1,0 +1,80 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Distributed System 1 - synch 5}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 09}
+\begin{enumerate}
+	\item Consistent Cut
+	\item proof: distributed snapshot does a consistent cut
+	\item if two node initiate at the same time: to resolve the thing we can add extra information to the token, this way there is no confusion and no problems.
+\end{enumerate}
+
+\paragraph{Distributed transaction} % (fold)
+\label{par:distributed_transaction}
+All succeed or no one succeed, all the operations are treated as \textbf{atomic}.
+All operations atomic, behave as one even if their individual operations are executed in parallel and intermets one another.
+If it works we call it \textbf{commit} otherwise \textbf{rollback} and no trace of the aborted transaction remains in the system.\\
+ACID
+\begin{enumerate}
+	\item atomic: atom
+	\item consistent: maintain the system in a consistent state if it commit or if it rollback
+	\item isolated: concurrent trasactions do not interfere with each other.
+	\item Durable: changes are permanent once committed.
+\end{enumerate}
+Transaction are implmented with some techniques
+\begin{enumerate}
+	\item Private workspace: the intermediate results use new blocks, and we maintain the old results in case of rollback. Istant rollback.
+	\item Writeahead log: here you only have the new copy, but we keep track of the actions (log), so the roll back would just need to revert such actions. More computation to rollback, but less space required.
+\end{enumerate}
+% paragraph distributed_transaction (end)
+
+\paragraph{Concurrency Control} % (fold)
+\label{par:concurrency_control}
+conflict only wwith write operation
+serially equivalent interleaving
+how 
+locks 
+timestamp
+optimistic control
+
+\subparagraph{Locks} % (fold)
+\label{subp:locks}
+Use locks on the resources.
+% subparagraph locks (end)
+% paragraph concurrency_control (end) 
+\subparagraph{pessimistic timestamp ordering}
+\label{subp:pessimistic_timestamp_ordering}
+Basic idea: assign a timestamp (read and write) to each transaction: this defines the ordering among transactions. A transaction can accesss an object only if it was accessed by "earlier" transactions.
+Every variable has a timestamp for reading and a timestamp for writing. This way if we see that our read has a lower timestamp then its last write we can deduce that the var is changed, then we abort.
+The same with the write
+
+\subparagraph{Optimistic Timestamp Ordering} % (fold)
+\label{subp:optimistic_timestamp_ordering}
+
+% subparagraph optimistic_timestamp_ordering (end)
+
+% subparagraph pessimistic_timestamp_ordering (end)
+\paragraph{dirty rerads cascading rollback} % (fold)
+\label{par:dirty_rerads_cascading_rollback}
+
+% paragraph dirty_rerads_cascading_rollback (end)
+
+\end{document}
+\grid
+\grid

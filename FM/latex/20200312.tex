@@ -1,0 +1,212 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Formal methods - Temporal logic}
+\maketitle
+
+\medskip
+
+\section{LTL vs CTL} % (fold)
+\label{sec:ltl_vs_ctl}
+\begin{enumerate}
+	\item many CTL formulas connt be expressed in LTL
+	\item many LTL formulas cannot be expressed in CTL
+	\item some formulas can be expressed both in LTL and in CTL
+\end{enumerate}
+LTL reason in terms of all path from the beginning (medieval metaphor). CTL reason in every single state in the path.
+Everything in this form $GF something \rightarrow something$ don't have an equivalent in CTL.
+LTL = techniques based with automata
+CTL = techniques based with symbolic M.C.
+% section ltl_vs_ctl (end)
+
+\section{CTL*} % (fold)
+\label{sec:ctl_}
+Unified framework (super logic) that contain CTL and LTL.
+\[
+	M,s \models AE \psi \ iff \ M,s \models E\phi
+\]
+With a nested path quantifier implicitly we consider only the inner one.
+Substantially, as CTL but $X,G,F,U$ are not necessarily precede by $A, E$.
+% section ctl_ (end)
+
+\section{CTL* vs LTL \& CTL)} % (fold)
+\label{sec:ctl}
+There are formula than can't be represented neither in CTL nor in LTL but in CTL*
+(e.g. $E(GFp \rightarrow GFp)$)
+\[
+	LTL\ U\ CTL \in CTL*
+\]
+% section ctl (end)
+
+
+\section{Fairness \& Fair Kripke Models} % (fold)
+\label{sec:fairness_}
+Consider a variant of the mutual exclusion in which one process can stay permanently in the critical zone
+\[
+	M \models AG(T_1 \rightarrow AFC_1), M \models AG(T_2 \rightarrow AFC_2)
+\] Nope.
+
+It is desirable that certain (typically Boolean) conditions $\phi$ hold infinitely often: $AGAF\phi$ ($GF\phi$ in LTL). These are called \textbf{fairness conditions}.
+Fairness condition:
+\[
+	\lnot EFEG \lnot \phi
+\](it is never reached a state from which $\phi$ is forever false)
+
+Example: it is not desirable that, once a process is in the critical section, it never exists: $AGAF \lnot C_1$ ($\lnot EFEGC_1$)
+
+\paragraph{Fair Kripke models} % (fold)
+\label{par:fair_kripke_models}
+A Fair Kripke model $M_f := (S,R,I,AP,L,F)$\\
+F: a set of fairness conditions F = {$f_1, ..., f_n$} with $f_i \in S$\\
+E.g. {{2}} := {GFq}\\
+\textbf{Fair path $\pi$: at least one state for each $f_i$ occurs infinitely often in $\pi$} ($\phi_i$ holds infinitely often in $\pi : \pi \models GF \phi_i$) \\
+% paragraph fair_kripke_models (end)
+\textbf{Fair state: it lays on at least one fair path.}\\
+In CTL Fairness conditions \textbf{cannot} be encoded into the formula itself.
+In LTL Fairness conditions \textbf{can} be encoded into the formula itself $GFf_i$.
+
+% section fairness_ (end)
+
+
+
+\newpage
+\section{Exercises} % (fold)
+\label{sec:exercises}
+\paragraph{Improved Labeled CNF-ization} % (fold)
+\label{par:labeled_cnf_ization}
+Consider the following Boolean formula $\phi$
+\[
+	((\lnot A_1 \land \lnot A_2) \lor (A_7 \land A_4) \lor (\lnot A_3 \land A_2) \lor (A_5 \land \lnot A_4))
+\]
+Using the \textit{improved} $CNF_{label}$ conversion, produce the CNF formula $CNF_{label}(\phi)$. \textit{Substantially, we have to transform in CNF} $B_1 \rightarrow (\lnot A_1 \land \lnot A_2)$
+\[
+	(B) \land
+\]\[
+ 	(\lnot B \lor B_1 \lor B_2 \lor B_3 \lor B_4) \land
+\]\[
+	(\lnot B_1 \lor \lnot A_1) \land (\lnot B_1 \land \lnot A_2) \land
+\]\[
+	...
+\]\[
+	(\lnot B_4 \lor A_5) \land (\lnot B_4 \lor \lnot A_4)
+\]
+% paragraph labeled_cnf_ization (end)
+
+
+\paragraph{NNF conversion} % (fold)
+\label{par:nnf_conversion}
+NNF = negative normal form is the form in which a form is written as $\land$ and $\lor$ and all negations are written on the bottom at literal level. \textit{Substantially, put all negations near to literals, and write all with OR and AND}
+
+Consider the following boolean formula:
+\[
+	\lnot(((\lnot A_1 \rightarrow \lnot A_2) \land ()
+\]
+Compute the Negative Normal Form.
+\[
+sdf
+\]\[
+asd
+\]
+we can expand the implication first OR we can remember 
+$\lnot (A \rightarrow B) = A \land \lnot B$
+\[
+	sad
+\]
+
+% paragraph nnf_conversion (end)
+
+\paragraph{LTL Model Checking (path)} % (fold)
+\label{par:ltl_model_checking}
+Consider the following path $\pi$
+insert figure
+For each of the following facts, say if it is true or false in LTL.
+\begin{enumerate}
+	\item $\pi, S_0 \models GFq$ TRUE
+	\item $\pi, S_0 \models FG(q \leftrightarrow \lnot p)$ TRUE
+	\item $\pi, S_2 \models Gp$ FALSE
+	\item $\pi, S_2 \models pUq$ TRUE 
+\end{enumerate}
+% paragraph ltl_model_checking (end)
+
+\paragraph{LTL Model Checking} % (fold)
+\label{par:ltl_model_checking}
+Consider the following Kripke Model $M$
+insert figure
+For each of the following facts, say if it is true or false in LTL.
+\begin{enumerate}
+	\item $M \models (pUq)$ TRUE
+	\item $M \models G(\lnot p \rightarrow F\lnot q)$ TRUE
+	\item $M \models Gp \rightarrow Gq$ TRUE all paths where $Gp$ holds $Gq$  holds.
+	\item $M \models FGp$ FALSE
+\end{enumerate}
+% paragraph ltl_model_checking (end)
+
+\paragraph{CTL Model Checking} % (fold)
+\label{par:ctl_model_checking}
+Consider the following Kripke Model $M$
+insert figure
+For each of the following facts, say if it is true or false in CTL.
+\begin{enumerate}
+	\item $M \models AF \lnot p$ FALSE
+	\item $M \models EGp$ FALSE for ALL starting point EXIST one path where $Gp$
+	\item $M \models A(p U q)$ TRUE
+	\item $M \models E(p U \lnot q)$ TRUE (in $S_1$ $pU\lnot q$ is already verified).
+\end{enumerate}
+% paragraph ltl_model_checking (end)
+
+\paragraph{CTL Model Checking} % (fold)
+\label{par:ctl_model_checking}
+Consider the following Kripke Model $M$
+insert figure
+For each of the following facts, say if it is true or false in CTL.
+\begin{enumerate}
+	\item $M \models AF \lnot q$ FALSE
+	\item $M \models EGq$ FALSE
+	\item $M \models ((AGAFp \lor AGAF q) \land (AGAF \lnot p \lor AGAF \lnot q)) \rightarrow q$ TRUE because in both initial state $q$ is true.
+	\item $M \models AFEG (p \land q) $ FALSE 
+\end{enumerate}
+% paragraph ltl_model_checking (end)
+
+\paragraph{Fair CTL Model Checking} % (fold)
+\label{par:ctl_model_checking}
+Consider the following fair Kripke Model $M$
+insert figure
+For each of the following facts, say if it is true or false in CTL.
+\begin{enumerate}
+	\item $M \models AF \lnot p$ TRUE
+	\item $M \models A(pU\lnot q)$ TRUE
+	\item $M \models AX \lnot q$ FALSE
+	\item $M \models AGAF \lnot p$ TRUE
+\end{enumerate}
+We can loop in $S_0$ only a finite amount of time due to the fairness conditions.
+% paragraph ltl_model_checking (end)
+
+\paragraph{Fair CTL Model Checking} % (fold)
+\label{par:ctl_model_checking}
+Consider the following fair Kripke Model $M$
+insert figure
+For each of the following facts, say if it is true or false in CTL.
+\begin{enumerate}
+	\item $M \models EF (p \land q)$ TRUE
+	\item $M \models AGAFp$ FALSE
+	\item $M \models AF \lnot q$ TRUE
+	\item $M \models AG (\lnot p \lor \lnot q)$ FALSE
+\end{enumerate}
+We can loop in $S_0$ only a finite amount of time due to the fairness conditions.
+% paragraph ltl_model_checking (end)
+
+% section exercises (end)
+\end{document}
+\grid
+\grid

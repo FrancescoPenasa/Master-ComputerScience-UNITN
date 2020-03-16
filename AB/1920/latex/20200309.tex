@@ -1,0 +1,141 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\usepackage{color}
+
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+% R style
+\lstset{frame=tb,
+language=R,
+keywordstyle=\color{blue},
+alsoletter={.}
+}
+
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Algorithms for Bioinformatics - lect 5}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 09}
+\section{Summary of previous lectures} % (fold)
+\label{sec:summary_of_previous_lectures}
+\begin{enumerate}
+	\item TMs \texttt{http://morphett.info/turing/turing.html}
+	\item global sequence alignment \texttt{http://experiments.mostafa.io/public/needleman-wunsch/}
+	\item local sequence alignment: the atcual alignment is the one we can see in the blue box. \texttt{http://insilico.ehu.es/align/}
+\end{enumerate}
+% section summary_of_previous_lectures (end)
+
+\paragraph{Different alphabets for sequence alignmnet} % (fold)
+\label{par:different_alphabets_for_sequence_alignmnet}
+\begin{enumerate}
+	\item DNA (4)
+	\item RNA (4)
+	\item Amino Acids (20)
+\end{enumerate}
+This alphabet are related through the genetic code. The alphabet of RNA is used for the translation the mRNA into proteins. Proteins are codified in triplets
+% paragraph different_alphabets_for_sequence_alignmnet (end)
+
+\paragraph{PAM} % (fold)
+\label{par:pam}
+Used to obtain scores for the substitution of amino acids, a model of mutation and acceptance based on a Markov model.\\ $m_j = $ mutability of the amino acid $j$.\\ 
+$A_{jk}$ = count of accepted point mutation between amino acids $i$ and $j$.
+\[
+	P_{jk} = m_j \frac{A_{jk}}{\sum_{h \neq j} A_{jh}} j \neq k
+\]\[
+	P_jj = 1 - m_j
+\]
+% paragraph pam (end)
+
+
+\section{Substitution Matricess: BLOSUM} % (fold)
+\label{sec:substitution_matricess_blosum}
+Based on "blocks" within protein sequences obtained by clustering them at a given level of similarity.
+% section substitution_matricess_blosum (end)
+\paragraph{Block} % (fold)
+\label{par:block}
+\begin{lstlisting}
+	P A P A 
+	A A A C
+	A A C C 
+	A A P A 
+	A A C C 
+	A A P C
+s=6   w=4   s*w=24   w*s(s-1)/2=60
+\end{lstlisting}
+Amino acid
+\begin{enumerate}
+	\item A ; 14 ; 14/24
+	\item P ; 4 ; 4/24
+	\item C ; 6 ; 6/24
+\end{enumerate}
+
+Aligned Pair (things are considered for column)
+\begin{enumerate}
+	\item AA ; 26 ; 26/60
+	\item AP ; 8 ; 8/60
+	\item ...
+	\item PP ; 3 ; 3/60 (we can see it in the thrid column)
+	\item PC ; 6 ; 6/60 (we can see it in the thrid column)
+	\item CC ; 7 ; 7/60
+\end{enumerate}
+
+Expected proportion: provided the frequency of the single amino acid this the proportion we expect to observe in terms of pairs. The expected proportion is estimated from the data.\\
+$$2log_2 \frac{observed}{expected}$$
+\begin{enumerate}
+	\item PP ; 16/576 ; 1.70
+	\item PC ; 48/576 ; 0.53
+\end{enumerate}
+Then we scale the ratio by 2 and round it to form the following substitution matrix.
+\begin{lstlisting}
+	A 	P 	C
+A 	1 	-1 	2
+P 	-1 	2 	1
+C 	2 	1 	2
+\end{lstlisting}
+
+\paragraph{Cluestring of similar sequences within a block} % (fold)
+\label{par:cluestring_of_similar_sequences_within_a_block}
+Similar sequence segments are clustered together at a level of similarity n\%.
+An additional sequence segment can be included in the cluster if it is similar at the n\% to at least ONE of the sequence segments that are already in the cluster.
+% paragraph cluestring_of_similar_sequences_within_a_block (end)
+
+\subsection{Formulas} % (fold)
+\label{sub:formulas}
+\begin{enumerate}
+	\item asd
+	\item asd
+	\item asd
+\end{enumerate}
+% subsection formulas (end)
+
+\section{PAM vs BLOSUM} % (fold)
+\label{sec:pam_vs_blosum}
+\begin{enumerate}
+	\item evolutionary model: explicit \textbf{vs} none evolution model to motivate the approach.
+	\item data: starting point multiple sequence alignments \textbf{vs}
+	\item structure: trees \textbf{vs} clustering
+	\item evolutionary distance: markov model \textbf{vs} clustering of sequences
+	\item matrices: \textbf{vs}
+	\item parameters: \textbf{vs}
+	\item biophysical properties: \textbf{vs}
+\end{enumerate}
+% section pam_vs_blosum (end)
+
+% paragraph block (end)
+\end{document}
+\grid
+\grid

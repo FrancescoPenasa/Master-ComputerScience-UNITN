@@ -1,0 +1,117 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{AOSE - multi-agent}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{02/03/2020 - italiano - da slide 25 circa a slide 60}
+\section{Last time} % (fold)
+\label{sec:last_time}
+agente software - autonomia
+noi chiediamo al software di raggiungere un obbiettivo senza specificare il modo in cui farlo, il software decide come comportarsi, un paradigma diverso.
+
+\paragraph{cosa possono fare gli agenti} % (fold)
+\label{par:cosa_possono_fare_gli_agenti}
+\begin{enumerate}
+	\item coordinarsi tra di loro
+	\item competere tra di loro (non necessariamente coordinativi)
+\end{enumerate}
+dobbiamo procettare dei protocolli di interazione.
+% paragraph cosa_possono_fare_gli_agenti (end)
+
+\paragraph{esempio:} % (fold)
+\label{par:esempio_}
+essere in stazione alle cinque di pomeriggio, delego ad un amico e decide lui come raggiungere l'obbiettivo.
+% paragraph esempio_ (end)
+% section last_time (end)
+
+
+\section{Multi agent system} % (fold)
+\label{sec:multi_agent_system}
+Creiamo una struttura per dei componenti per raggiungere determinati obbiettivi, per essere autonomo e avere delle interazioni con gli atri.
+
+\subsection{Interazione} % (fold)
+\label{sub:interazione}
+Anche la modifica dell'ambiente e' una forma di interazione.
+\begin{enumerate}
+	\item Emergent behaviour(slide 28): emerge da altri comportamenti (reazione). Comportamento del singolo puo' generare un comportamento complessivo (esempio: incendio., se tutti corrono nella stessa direzione si trovano imbottigliati.
+\end{enumerate}
+
+\paragraph{Coesione:} % (fold)
+\label{par:coesione_}
+Rendere piu' autonomo possibile un sistema.
+% paragraph coesione_ (end)
+
+% subsection interazione (end)
+
+
+\subsection{Comunicazione} % (fold)
+non solo mandare messaggi, ma deve essere presente un significato che puo' essere interpretato.
+Quando parlo con il robot, questo deve capire cosa sto dicendo. Ma ci possono essere cose piu' sofisticate, tipo "oggi il meteo e' brutto, porta l'ombrello", quindi azioni proattive in previsione di richieste future. Chiedo le previsioni perche' ho intenzione di uscire...
+Dobbiamo cercare di capire come dare percezione di un messaggio.
+
+\paragraph{Contesto} % (fold)
+\label{par:contesto}
+in base al contesto la richiesta puo' essere interpretata in maniera totalmente diversa (ex. ``tell me something about Rome'')
+% paragraph contesto (end)
+
+
+
+\paragraph{example} % (fold)
+\label{par:example}
+\begin{enumerate}
+	\item Alexa: in linguaggio naturale si esprime l'obbiettivo, alexa attraverso il riconoscimento del linguaggio naturale cerca di \textbf{interpretare} la richiesta e soddisfarla.
+\end{enumerate}
+% paragraph example (end)
+% subsection comunicazione (end)
+
+\subsection{Architettura} % (fold)
+\label{sub:architettura}
+\subsubsection{Come costruire il singolo componente} % (fold)
+\label{ssub:come_costruire_il_singolo_componente}
+\begin{enumerate}
+	\item Logic-based (symbolic): attraverso una rappresentazione simbolica cerchiamo di rappresentare i comportamenti degli agenti. Rappresentiamo lo stato del mondo e gli agenti in base allo stato deducono cosa fare. \textbf{Example:\\} 
+	[state of the world]\\
+	$$open(valve); temperature(react1, 300); pressure (tank2, 10);$$
+	[decision-making process modeled as a set of deduction rules.]\\
+	$$pressure(T,X) \land X>20 \land is\_tank\_val(T,V) \rightarrow close(V)$$
+	[action selection Algorithm]
+	\begin{lstlisting}[mathescape=true]
+		for each $a \in Ac$ do
+			if $\Delta |_p$ Do($a$) then
+				return a 
+			else 
+				return b
+		end-for
+ 	\end{lstlisting}
+	\item Reactive: tramite una gerarchia, i livelli piu' bassi hanno priorita'
+	\item Layered (hybrid)
+	\item BDI (deliberative): belief, desire, intention.
+
+\end{enumerate}
+% subsubsection subsubsection_name (end)
+\paragraph{Come realizzare l'insieme dei componenti} % (fold)
+\label{par:come_realizzare_l_insieme_dei_componenti}
+
+% paragraph come_realizzare_l_insieme_dei_componenti (end)
+% subsection architettura (end)
+
+% section multi_agent_system (end)
+
+\end{document}
+\grid
+\grid

@@ -1,3 +1,7 @@
+# Video for legal purposes
+*.mp4
+*.m4v
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
