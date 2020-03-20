@@ -72,14 +72,15 @@ Allow us to browese data at various detail levels.
 \section{Exercises} % (fold)
 \label{sec:exercises}
 \begin{enumerate}
-	\item Display the RARA gene with the browser. How many alternative transcripts does it have? \textbf{2}
-	\item Considering the first transcript, how many introns and exons? \textbf{8 ; 9 }
+	\item Display the RARA gene with the browser. How many alternative transcripts does it have? \textbf{4, the transcript are the lines where RARA is written} 
+	\item Considering the first transcript, how many introns and exons?8 9  
 	\item Now add to the displayed tracks the GC-percent track (it shows the percentage of GC bases along the sequence). Drag it and move it just under the sequence. \textbf{Mapping and Sequencing GC percent dense}
-	\item Now hide the alignment track which is shown by default. \textbf{boh}
-	\item Zoom out on the 5’UTR region of the transcript and check if there are any known SNPs in that region.
+	\item Now hide the alignment track which is shown by default. \textbf{the alignment track is the one that tells you where we are chr17: we go to Mapping and sequences Base position hide}
+	\item Zoom in on the 5th UTR region of the transcript and check if there are any known SNPs in that region. \textbf{zoom in to see the place where the 5th track has a thick line arrowless, to show the SNPs go to variation Common SNPs full, or dbSNP for all the SNP}
 \end{enumerate}
 \begin{enumerate}
 	\item We want to retrieve the 3’UTR sequence for our gene, RARA
+	\item be careful about the table refseq curated.
 	\item \texttt{http://genome.ucsc.edu/cgi-bin/hgTables}
 	\item identifiers paste list -> RARA
 	\item output format -> sequence, genomic
@@ -87,15 +88,15 @@ Allow us to browese data at various detail levels.
 \end{enumerate}
  
 \begin{enumerate}
-	\item Display the KRAS gene with the browser. How many alternative transcripts does it have ? Considering the first transcript, how many introns and exons? 4; 5; 6
-	\item Now add the 1000 Genomes – EUR common variants track to the display. Are there 5'UTR variants in KRAS? 
-	\item Now zoom to the second exon of the first isoform of KRAS. How many missense variants are there ?
+	\item Display the KRAS gene with the browser. How many alternative transcripts does it have ? Considering the first transcript, how many introns and exons? 4; go to region in details; 5; 6
+	\item Now add the 1000 Genomes – EUR common variants track to the display. Are there 5'UTR variants in KRAS? \textbf{configure, variation, sequence variance, add}
+	\item Now zoom to the second exon of the first isoform of KRAS. How many missense variants are there? just zoom and watch
 \end{enumerate}
 
 \begin{enumerate}
-	\item Get the Ensembl ID and MGI symbol for all mouse genes on chromosome 19. How many genes are there ?  
-	\item Now limit this to protein coding genes. How many genes are there ? 
-	\item Now save the results to a comma-separated values fil
+	\item Get the Ensembl ID and MGI symbol for all mouse genes on chromosome 19. How many genes are there ?  Mouse genes (GRCm38.p6) > click on Filter, region> chromosome 19, Attributes > Gene, only gene stable id; attributes external MGI symbol; click on count; click results
+	\item Now limit this to protein coding genes. How many genes are there ? add filter, gene type, protein coding, count, results
+	\item Now save the results to a comma-separated values file. ez.
 \end{enumerate}
 % section exercises (end)
 
