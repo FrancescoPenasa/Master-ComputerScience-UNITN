@@ -1,0 +1,89 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\usepackage{color}
+
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+% R style
+\lstset{frame=tb,
+language=R,
+keywordstyle=\color{blue},
+alsoletter={.}
+}
+
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Algorithms for Bioinformatics - lect 6-7}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 16}
+\section{Previous lectures} % (fold)
+\label{sec:previous_lectures}
+\begin{enumerate}
+	\item Global sequence alignment
+	\item Local sequence alignment	
+	\item substitution matrices (PAM and BLOSUM)
+\end{enumerate}
+% section previous_lectures (end)
+
+\section{Issue about the complexity} % (fold)
+\label{sec:issue_about_the_complexity}
+\paragraph{Needleman-Wunsch} % (fold)
+\label{par:needleman_wunsch}
+time
+\[
+	O(mn)
+\]
+space 
+\[
+	O(n)
+\]
+$m$ and $n$ are the length of the two sequences
+
+\paragraph{Smith-Waterman} % (fold)
+\label{par:smith_waterman}
+time 
+\[
+	O(mn^2) 
+\]
+$n^2$ because gaps of variable length are considered during the computation of each element of the matrix. It is possible to reduce Local alignment in $O(mn)$
+
+\paragraph{} % (fold)
+\label{par:0}
+Is the complexity low enough for pratical uses? No. Use Heuristics methods, sacrifice exact solution in order to gain in terms of time complexity.
+% paragraph  (end)
+
+% section issue_about_the_complexity (end)
+
+\section{FASTA} % (fold)
+\label{sec:fasta}
+FASTA is an heuristic method for global/local sequence alignment.
+\begin{enumerate}
+	\item Look-up table: between the sequences
+	\item Best initial regions found: through the ktup matrix
+	\item Connect the best initial regions heuristically 
+	\item Computing an exact alignment limiting the search to a promising area
+\end{enumerate}
+% section fasta (end)
+\texttt{https://www.ebi.ac.uk/Tools/sss/fasta/}
+\section{BLAST} % (fold)
+\label{sec:blast}  
+BELLO
+% section blast_and_its_variations (end)
+
+\end{document}
+\grid
+\grid

@@ -1,0 +1,594 @@
+<html><head>
+
+ <title>The Statistics of Sequence Similarity Scores</title>
+
+ <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+ <meta name="keywords" content="sequence analysis, BLAST, Altschul, Cold Sping Harbor, statistics, sequence similarity">
+
+ <meta name="description" content="insert the description to be displayed by the search engine. Also searched by the search engine.">
+
+ <link rel="stylesheet" href="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/ncbi.css">
+
+</head>
+
+
+
+
+
+<body alt="" vlink="#6666CC" text="#000000" link="#000099" bgcolor="#FFFFFF" background="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bkgd.gif">
+
+<span class="TEXT"> <!--        the header           --> 
+
+<table width="600" cellspacing="0" cellpadding="0" border="0">
+
+ <tbody><tr> 
+
+  <td width="140"><a href="https://www.ncbi.nlm.nih.gov/"> <img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/left.GIF" alt="NCBI" width="130" height="45" border="0"></a></td>
+
+  <td class="head1" width="360" valign="BOTTOM"> <span class="H1">The Statistics of Sequence Similarity Scores</span></td>
+
+  <td width="100" valign="MIDDLE"><a href="http://www.cshl.org/"><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/CSH.gif" alt="CSH" width="45" height="45" border="0" align="BOTTOM"></a></td>
+
+ </tr>
+
+</tbody></table>
+
+<!--      the quicklinks bar         --> 
+
+<table class="TEXT" width="600" cellspacing="0" cellpadding="3" border="0" bgcolor="#000000">
+
+ <tbody><tr class="TEXT" align="CENTER"> 
+
+   <td width="170"><a href="https://www.ncbi.nlm.nih.gov/BLAST/tutorial/Altschul-1.html" class="BAR">The statistics of <br>sequence similarity scores</a></td>
+
+  <td width="170"><a href="https://www.ncbi.nlm.nih.gov/BLAST/tutorial/Altschul-3.html" class="BAR">The statistics of <br>PSI-BLAST scores</a></td>
+
+  <td width="170"><a href="https://www.ncbi.nlm.nih.gov/BLAST/tutorial/Altschul-2.html" class="BAR">Iterated profile searches <br>with PSI-BLAST</a></td>
+
+  <td width="90"><a href="https://blast.ncbi.nlm.nih.gov/" class="BAR">BLAST<br>Home</a></td>
+  
+ </tr>
+
+</tbody></table>
+
+<!--        the contents          --> 
+
+<table width="600" cellspacing="0" cellpadding="0" border="0">
+
+ <tbody><tr valign="TOP"> <!--        left column          --> 
+
+  <td width="125"> 
+
+   <p>&nbsp;</p>
+    <span class="GUTTER1"><a href="#head1" class="GUTTER">The statistics of global sequence comparison</a><br><br>
+
+<span class="GUTTER1"><a href="#head2" class="GUTTER">The statistics of local sequence comparison</a><br><br>
+
+<span class="GUTTER1"><a href="#head3" class="GUTTER">Bit scores</a><br><br>
+
+<span class="GUTTER1"><a href="#head4" class="GUTTER">P-values</a><br><br>
+
+<span class="GUTTER1"><a href="#head5" class="GUTTER">Database searches</a><br><br>
+
+<span class="GUTTER1"><a href="#head6" class="GUTTER">The statistics of gapped alignments</a><br><br>
+
+<span class="GUTTER1"><a href="#head7" class="GUTTER">Edge effects</a><br><br>
+
+<span class="GUTTER1"><a href="#head8" class="GUTTER">The choice of substitution scores</a><br><br>
+
+<span class="GUTTER1"><a href="#head9" class="GUTTER">The PAM and BLOSUM amino acid substitution matrices</a><br><br>
+
+<span class="GUTTER1"><a href="#head10" class="GUTTER">DNA substitution matrices</a><br><br>
+
+<span class="GUTTER1"><a href="#head11" class="GUTTER">Gap scores</a><br><br>
+
+<span class="GUTTER1"><a href="#head12" class="GUTTER">Low complexity sequence regions</a><br><br>
+
+<span class="GUTTER1"><a href="#refs" class="GUTTER">References</a><br><br>
+
+
+  </span></span></span></span></span></span></span></span></span></span></span></span></span></td>
+
+  <!-- extra column to force things over the gif border --> 
+
+  <td width="15"> </td>
+
+  <!--        right content column          --> 
+
+  <td class="TEXTWIDE" width="460"> 
+
+   <p>&nbsp;</p>
+
+   <!-- title with bullet --> 
+
+   <h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14">Introduction</h3>
+
+   <!-- end of title with bullet --> 
+
+<span class="TEXTWIDE">
+
+&nbsp;&nbsp;&nbsp;To assess whether a given alignment constitutes 
+evidence for homology, it
+helps to know how strong an alignment can be expected from chance alone.
+In this context, "chance" can mean the comparison of (i) real but 
+non-homologous sequences; (ii) real sequences that are shuffled to 
+preserve
+compositional properties <a href="#ref1">[1-3]</a>; or (iii) sequences that are generated
+randomly based upon a DNA or protein sequence model. Analytic statistical
+results invariably use the last of these definitions of chance, while
+empirical results based on simulation and curve-fitting may use any of
+the definitions.<br>
+
+
+ <h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head1">The statistics of global sequence comparison</a></h3>
+
+&nbsp;&nbsp;&nbsp;Unfortunately, under even the simplest random models and scoring systems,
+very little is known about the random distribution of optimal global
+alignment scores <a href="#ref4">[4]</a>. Monte Carlo experiments can provide rough
+distributional results for some specific scoring systems and sequence
+compositions <a href="#ref5">[5]</a>, but these can not be generalized easily. Therefore,
+one of the few methods available for assessing the statistical significance
+of a particular global alignment is to generate many random sequence
+pairs of the appropriate length and composition, and calculate the
+optimal alignment score for each <a href="#ref1">[1,3]</a>. While it is then possible to
+express the score of interest in terms of standard deviations from the
+mean, it is a mistake to assume that the relevant distribution is normal
+and convert this <i>Z</i>-value into a <i>P</i>-value; the tail behavior of global
+alignment scores is unknown. The most one can say reliably is that if
+100 random alignments have score inferior to the alignment of interest,
+the <i>P</i>-value in question is likely less than 0.01. One further pitfall
+to avoid is exaggerating the significance of a result found among multiple
+tests. When many alignments have been generated, e.g. in a database
+search, the significance of the best must be discounted accordingly.
+An alignment with <i>P</i>-value 0.0001 in the context of a single trial may
+be assigned a <i>P</i>-value of only 0.1 if it was selected as the best among
+1000 independent trials.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head2">The statistics of local sequence comparison</a></h3>
+
+&nbsp;&nbsp;&nbsp;Fortunately statistics for the scores of local alignments, unlike those of
+global alignments, are well understood. This is particularly true for local
+alignments lacking gaps, which we will consider first. Such alignments were
+precisely those sought by the original BLAST database search programs <a href="#ref6">[6]</a>.<br>
+ 
+&nbsp;&nbsp;&nbsp;A local alignment without gaps consists simply of a pair of equal length
+segments, one from each of the two sequences being compared. A modification
+of the Smith-Waterman <a href="#ref7">[7]</a> or Sellers <a href="#ref8">[8]</a> algorithms will find all segment
+pairs whose scores can not be improved by extension or trimming. These are
+called high-scoring segment pairs or HSPs.<br>
+
+&nbsp;&nbsp;&nbsp;To analyze how high a score is likely to arise by chance, a model of random
+sequences is needed. For proteins, the simplest model chooses the amino acid
+residues in a sequence independently, with specific background probabilities
+for the various residues. Additionally, the expected score for aligning a
+random pair of amino acid is required to be negative. Were this not the case,
+long alignments would tend to have high score independently of whether the
+segments aligned were related, and the statistical theory would break down.<br>
+
+&nbsp;&nbsp;&nbsp;Just as the sum of a large number of independent identically distributed
+(i.i.d) random variables tends to a normal distribution, the maximum
+of a large number of i.i.d. random variables tends to an extreme value
+distribution <a href="#ref9">[9]</a>. (We will elide the many technical points required
+to make this statement rigorous.) In studying optimal local sequence
+alignments, we are essentially dealing with the latter case <a href="#ref10">[10,11]</a>.
+In the limit of sufficiently large sequence lengths <i>m</i> and <i>n</i>, the
+statistics of HSP scores are characterized by two parameters, <i>K</i> and
+<i>lambda</i>. Most simply, the expected number of HSPs with score at least
+<i>S</i> is given by the formula<br>
+
+<img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/1.gif" alt="Formula 1" width="460" height="50" border="0"><br><br><br><br>
+
+We call this the <i>E</i>-value for the score <i>S</i>.<br>
+&nbsp;&nbsp;&nbsp;This formula makes eminently intuitive sense. Doubling the length of
+either sequence should double the number of HSPs attaining a given score.
+Also, for an HSP to attain the score <i>2x</i> it must attain the score <i>x</i> twice
+in a row, so one expects <i>E</i> to decrease exponentially with score. The
+parameters <i>K</i> and <i>lambda</i> can be thought of simply as natural scales for
+the search space size and the scoring system respectively.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head3">Bit scores</a></h3>
+
+&nbsp;&nbsp;&nbsp;Raw scores have little meaning without detailed knowledge of the scoring
+system used, or more simply its statistical parameters <i>K</i> and <i>lambda</i>.
+Unless the scoring system is understood, citing a raw score alone is like citing a distance without specifying
+feet, meters, or light years.
+By normalizing a raw score using the formula<br>
+
+ <img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/2.gif" alt="Formula 2" width="460" height="65" border="0" align="BOTTOM"><br><br><br><br>
+
+one attains a "bit score" <i>S'</i>, which has a standard set of units. The <i>E</i>-value
+corresponding to a given bit score is simply<br>
+
+<img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/3.gif" alt="Formula 3" width="460" height="65" border="0" align="BOTTOM"><br><br><br><br>
+
+Bit scores subsume the statistical essence of the scoring system employed,
+so that to calculate significance one needs to know in addition only the
+size of the search space.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head4">P-values</a></h3>
+
+&nbsp;&nbsp;&nbsp;The number of random HSPs with score &gt;= <i>S</i> is described by a Poisson
+distribution <a href="#ref10">[10,11]</a>. This means that the probability of finding exactly
+<i>a</i> HSPs with score &gt;=<i>S</i> is given by<br>
+
+<img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/4.gif" alt="Formula 4" width="460" height="65" border="0" align="BOTTOM"><br><br><br><br>
+
+where <i>E</i> is the <i>E</i>-value of <i>S</i> given by equation (1) above. Specifically the
+chance of finding zero HSPs with score &gt;=<i>S</i> is e<sup>-E</sup>, so the probability
+of finding at least one such HSP is<br>
+
+<img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/5.gif" alt="Formula 5" width="460" height="50" border="0" align="BOTTOM"><br><br><br><br>
+
+This is the <i>P</i>-value associated with the score <i>S</i>. For example, if one expects
+to find three HSPs with score &gt;= <i>S</i>, the probability of finding at least one
+is 0.95. The BLAST programs report <i>E</i>-value rather than <i>P</i>-values because it
+is easier to understand the difference between, for example, <i>E</i>-value of 5
+and 10 than <i>P</i>-values of 0.993 and 0.99995. However, when <i>E</i> &lt; 0.01, <i>P</i>-values
+and <i>E</i>-value are nearly identical.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head5">Database searches</a></h3>
+
+&nbsp;&nbsp;&nbsp;The <i>E</i>-value of equation (1) applies to the comparison of two proteins of
+lengths <i>m</i> and <i>n</i>. How does one assess the significance of an alignment that
+arises from the comparison of a protein of length <i>m</i> to a database containing
+many different proteins, of varying lengths? One view is that all proteins
+in the database are <i>a priori</i> equally likely to be related to the query.
+This implies that a low <i>E</i>-value for an alignment involving a short database
+sequence should carry the same weight as a low <i>E</i>-value for an alignment
+involving a long database sequence. To calculate a "database search" <i>E</i>-value,
+one simply multiplies the pairwise-comparison <i>E</i>-value by the number of
+sequences in the database. Recent versions of the FASTA protein comparison
+programs <a href="#ref12">[12]</a> take this approach <a href="#ref13">[13]</a>.<br>
+
+&nbsp;&nbsp;&nbsp;An alternative view is that a query is <i>a priori</i> more likely to be related to
+a long than to a short sequence, because long sequences are often composed of
+multiple distinct domains. If we assume the <i>a priori</i> chance of relatedness is
+proportional to sequence length, then the pairwise <i>E</i>-value involving a database
+sequence of length <i>n</i> should be multiplied by <i>N/n</i>, where <i>N</i> is the total length
+of the database in residues. Examining equation (1), this can be accomplished
+simply by treating the database as a single long sequence of length <i>N</i>. The
+BLAST programs <a href="#ref6">[6,14,15]</a> take this approach to calculating database <i>E</i>-value.
+Notice that for DNA sequence comparisons, the length of database records is
+largely arbitrary, and therefore this is the only really tenable method for
+estimating statistical significance.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head6">The statistics of gapped alignments</a></h3>
+
+&nbsp;&nbsp;&nbsp;The statistics developed above have a solid theoretical foundation only
+for local alignments that are not permitted to have gaps. However, many
+computational experiments <a href="#ref14">[14-21]</a> and some analytic results <a href="#ref22">[22]</a>
+ strongly
+suggest that the same theory applies as well to gapped alignments. For
+ungapped alignments, the statistical parameters can be calculated, using
+analytic formulas, from the substitution scores and the background 
+residue frequencies of the sequences being compared. For gapped 
+alignments,
+these parameters must be estimated from a large-scale comparison of
+"random" sequences.<br>
+
+&nbsp;&nbsp;&nbsp;Some database search programs, such as FASTA <a href="#ref12">[12]</a> or various implementation
+of the Smith-Waterman algorithm <a href="#ref7">[7]</a>, produce optimal local alignment scores
+for the comparison of the query sequence to every sequence in the database.
+Most of these scores involve unrelated sequences, and therefore can be used
+to estimate <i>lambda</i> and <i>K</i> <a href="#ref17">[17,21]</a>. This approach avoids the artificiality of
+a random sequence model by employing real sequences, with their attendant
+internal structure and correlations, but it must face the problem of excluding
+from the estimation scores from pairs of related sequences. The BLAST programs
+achieve much of their speed by avoiding the calculation of optimal alignment
+scores for all but a handful of unrelated sequences. The must therefore rely
+upon a pre-estimation of the parameters <i>lambda</i> and <i>K</i>, for a selected set of
+substitution matrices and gap costs. This estimation could be done using real
+sequences, but has instead relied upon a random sequence model <a href="#ref14">[14]</a>, which
+appears to yield fairly accurate results <a href="#ref21">[21]</a>.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head7">Edge effects</a></h3>
+
+&nbsp;&nbsp;&nbsp;The statistics described above tend to be somewhat conservative for short
+sequences. The theory supporting these statistics is an asymptotic one,
+which assumes an optimal local alignment can begin with any aligned pair
+of residues. However, a high-scoring alignment must have some length,
+and therefore can not begin near to the end of either of two sequences
+being compared. This "edge effect" may be corrected for by calculating
+an "effective length" for sequences <a href="#ref14">[14]</a>; the BLAST programs implement
+such a correction. For sequences longer than about 200 residues the edge
+effect correction is usually negligible.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head8">The choice of substitution scores</a></h3>
+
+&nbsp;&nbsp;&nbsp;The results a local alignment program produces depend strongly upon the
+scores it uses. No single scoring scheme is best for all purposes, and
+an understanding of the basic theory of local alignment scores can improve
+the sensitivity of one's sequence analyses. As before, the theory is fully
+developed only for scores used to find ungapped local alignments, so we
+start with that case.<br>
+
+&nbsp;&nbsp;&nbsp;A large number of different amino acid substitution scores, based upon a
+variety of rationales, have been described <a href="#ref23">[23-36]</a>. However the scores of
+any substitution matrix with negative expected score can be written uniquely
+in the form<br>
+
+<img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/6.gif" alt="Formula 6" width="460" height="80" border="0" align="BOTTOM"><br><br><br><br><br><br>
+ 
+where the <i>q<sub>ij</sub></i>, called target frequencies, are positive numbers that sum
+to 1, the <i>p<sub>i</sub></i> are background frequencies for the various residues, and
+<i>lambda</i> is a positive constant <a href="#ref10">[10,31]</a>. The <i>lambda</i> here is identical to the
+<i>lambda</i> of equation (1).<br>
+
+&nbsp;&nbsp;&nbsp;Multiplying all the scores in a substitution matrix by a positive constant
+does not change their essence: an alignment that was optimal using the
+original scores remains optimal. Such multiplication alters the parameter
+<i>lambda</i> but not the target frequencies <i>q<sub>ij</sub></i>. Thus, up to a constant
+scaling factor, every substitution matrix is uniquely determined by its
+target frequencies. These frequencies have a special significance <a href="#ref10">[10,31]</a>:<br><br>
+
+  <center><table width="400">
+  <tbody><tr><td><span class="TEXTWIDE">
+  A given class of alignments is best distinguished from chance by the
+  substitution matrix whose target frequencies characterize the class.
+  </span></td></tr>
+  </tbody></table></center><br>
+
+To elaborate, one may characterize a set of alignments representing homologous
+protein regions by the frequency with which each possible pair of residues is
+aligned. If valine in the first sequence and leucine in the second appear in
+1% of all alignment positions, the target frequency for (valine, leucine) is
+0.01. The most direct way to construct appropriate substitution matrices for
+local sequence comparison is to estimate target and background frequencies,
+and calculate the corresponding log-odds scores of formula (6). These
+frequencies in general can not be derived from first principles, and their
+estimation requires empirical input.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head9">The PAM and BLOSUM amino acid substitution matrices</a></h3>
+
+&nbsp;&nbsp;&nbsp;While all substitution matrices are implicitly of log-odds form, the first
+explicit construction using formula (6) was by Dayhoff and coworkers <a href="#ref24">[24,25]</a>. From a study of observed residue replacements in closely related proteins,
+they constructed the PAM (for "point accepted mutation") model of molecular
+evolution. One "PAM" corresponds to an average change in 1% of all amino
+acid positions. After 100 PAMs of evolution, not every residue will have
+changed: some will have mutated several times, perhaps returning to their
+original state, and others not at all. Thus it is possible to recognize as
+homologous proteins separated by much more than 100 PAMs. Note that there
+is no general correspondence between PAM distance and evolutionary time, as
+different protein families evolve at different rates.<br>
+
+&nbsp;&nbsp;&nbsp;Using the PAM model, the target frequencies and the corresponding substitution
+matrix may be calculated for any given evolutionary distance. When two
+sequences are compared, it is not generally known a priori what evolutionary
+distance will best characterize any similarity they may share. Closely
+related sequences, however, are relatively easy to find even will non-optimal
+matrices, so the tendency has been to use matrices tailored for fairly distant
+similarities. For many years, the most widely used matrix was PAM-250,
+because it was the only one originally published by Dayhoff.<br>
+
+&nbsp;&nbsp;&nbsp;Dayhoff's formalism for calculating target frequencies has been criticized
+<a href="#ref27">[27]</a>, and there have been several efforts to update her numbers using the
+vast quantities of derived protein sequence data generated since her work
+<a href="#ref33">[33,35]</a>. These newer PAM matrices do not differ greatly from the original
+ones <a href="#ref37">[37]</a>.<br>
+
+&nbsp;&nbsp;&nbsp;An alternative approach to estimating target frequencies, and the corresponding
+log-odds matrices, has been advanced by Henikoff &amp; Henikoff <a href="#ref34">[34]</a>. They examine
+multiple alignments of distantly related protein regions directly, rather than
+extrapolate from closely related sequences. An advantage of this approach is
+that it cleaves closer to observation; a disadvantage is that it yields no
+evolutionary model. A number of tests <a href="#ref13">[13,37]</a> suggest that the "BLOSUM"
+matrices produced by this method generally are superior to the PAM matrices
+for detecting biological relationships.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head10">DNA substitution matrices</a></h3>
+
+&nbsp;&nbsp;&nbsp;While we have discussed substitution matrices only in 
+the context of protein sequence comparison, all the main issues carry 
+over to DNA sequence comparison.
+One warning is that when the sequences of interest code for protein, it 
+is almost always better to compare the protein translations than to 
+compare the DNA sequences directly.
+The reason is that after only a small amount of evolutionary change, the
+ DNA sequences, when compared using simple nucleotide substitution 
+scores, contain less
+information with which to deduce homology than do the encoded protein 
+sequences
+<a href="#ref32">[32]</a>.<br>
+&nbsp;&nbsp;&nbsp;Sometimes, however, one may wish to compare non-coding
+ DNA sequences, at which point the same log-odds approach as before 
+applies.
+An evolutionary model in which all nucleotides are equally common and 
+all substitution mutations are equally likely yields different scores 
+only for matches and mismatches <a href="#ref32">[32]</a>.
+A more complex model, in which transitions are more likely than 
+transversions, yields different "mismatch" scores for transitions and 
+transversions <a href="#ref32">[32]</a>.
+The best scores to use will depend upon whether one is seeking relatively diverged or closely related sequences <a href="#ref32">[32]</a>.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head11">Gap scores</a></h3>
+
+&nbsp;&nbsp;&nbsp;Our theoretical development concerning the optimality of matrices constructed
+using equation (6) unfortunately is invalid as soon as gaps and associated gap
+scores are introduced, and no more general theory is available to take its
+place. However, if the gap scores employed are sufficiently large, one can
+expect that the optimal substitution scores for a given application will not
+change substantially. In practice, the same substitution scores have been
+applied fruitfully to local alignments both with and without gaps. Appropriate
+gap scores have been selected over the years by trial and error <a href="#ref13">[13]</a>, and most
+alignment programs will have a default set of gap scores to go with a default
+set of substitution scores. If the user wishes to employ a different set of
+substitution scores, there is no guarantee that the same gap scores will remain
+appropriate. No clear theoretical guidance can be given, but "affine gap
+scores" <a href="#ref38">[38-41]</a>, with a large penalty for opening a gap and a much smaller
+one for extending it, have generally proved among the most effective.<br>
+
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="head12">Low complexity sequence regions</a></h3>
+
+&nbsp;&nbsp;&nbsp;There is one frequent case where the random models and therefore the statistics
+discussed here break down. As many as one fourth of all residues in protein
+sequences occur within regions with highly biased amino acid composition.
+Alignments of two regions with similarly biased composition may achieve very
+high scores that owe virtually nothing to residue order but are due instead
+to segment composition. Alignments of such "low complexity" regions have
+little meaning in any case: since these regions most likely arise by gene
+slippage, the one-to-one residue correspondence imposed by alignment is
+not valid. While it is worth noting that two proteins contain similar low
+complexity regions, they are best excluded when constructing alignments
+<a href="#ref42">[42-44]</a>. The BLAST programs employ the SEG algorithm <a href="#ref43">[43]</a> to filter low
+complexity regions from proteins before executing a database search.<br>
+
+<h3><img src="The%20Statistics%20of%20Sequence%20Similarity%20Scores_files/bluebullet.gif" alt="" width="16" height="14"><a name="refs">References</a></h3>
+
+
+<a name="ref1">[1]</a> Fitch, W.M. (1983) "Random sequences." J. Mol. Biol. 163:171-176. <a href="https://www.ncbi.nlm.nih.gov/pubmed/6842586">(PubMed)</a><br><br>
+<a name="ref2">[2]</a> Lipman, D.J., Wilbur, W.J., Smith T.F. &amp; Waterman, M.S. (1984) "On the
+   statistical significance of nucleic acid similarities." Nucl. Acids Res.
+   12:215-226. <a href="https://www.ncbi.nlm.nih.gov/pubmed/6694902">(PubMed)</a><br><br>
+<a name="ref3">[3]</a> 
+Altschul, S.F. &amp; Erickson, B.W. (1985) "Significance of nucleotide sequence
+   alignments: a method for random sequence permutation that preserves
+   dinucleotide and codon usage." Mol. Biol. Evol. 2:526-538. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3870875">(PubMed)</a><br><br>
+<a name="ref4">[4]</a> Deken, J. (1983) "Probabilistic behavior of longest-common-subsequence
+   length." In "Time Warps, String Edits and Macromolecules: The Theory and
+   Practice of Sequence Comparison." D. Sankoff &amp; J.B. Kruskal (eds.),
+   pp. 55-91, Addison-Wesley, Reading, MA. <br><br>
+
+<a name="ref5">[5]</a> Reich, J.G., Drabsch, H. &amp; Daumler, A. (1984) "On the statistical
+   assessment of similarities in DNA sequences." Nucl. Acids Res.
+   12:5529-5543. <a href="https://www.ncbi.nlm.nih.gov/pubmed/6462914">(PubMed)</a><br><br>
+<a name="ref6">[6]</a> Altschul, S.F., Gish, W., Miller, W., Myers, E.W. &amp; Lipman, D.J. (1990)
+   "Basic local alignment search tool." J. Mol. Biol. 215:403-410. <a href="https://www.ncbi.nlm.nih.gov/pubmed/2231712">(PubMed)</a><br><br>
+<a name="ref7">[7]</a> Smith, T.F. &amp; Waterman, M.S. (1981) "Identification of common molecular
+   subsequences." J. Mol. Biol. 147:195-197. <a href="https://www.ncbi.nlm.nih.gov/pubmed/7265238">(PubMed)</a><br><br>
+<a name="ref8">[8]</a> Sellers, P.H. (1984) "Pattern recognition in genetic sequences by mismatch
+   density." Bull. Math. Biol. 46:501-514.<br><br>
+
+<a name="ref9">[9]</a> Gumbel, E. J. (1958) "Statistics of extremes." Columbia University Press,
+   New York, NY.<br><br>
+
+<a name="ref10">[10]</a> Karlin, S. &amp; Altschul, S.F. (1990) "Methods for assessing the statistical
+   significance of molecular sequence features by using general scoring
+   schemes." Proc. Natl. Acad. Sci. USA 87:2264-2268.<a href="https://www.ncbi.nlm.nih.gov/pubmed/2315319">(PubMed)</a><br><br>
+<a name="ref11">[11]</a> Dembo, A., Karlin, S. &amp; Zeitouni, O. (1994) "Limit distribution of maximal
+   non-aligned two-sequence segmental score." Ann. Prob. 22:2022-2039.<br><br>
+
+<a name="ref12">[12]</a> Pearson, W.R. &amp; Lipman, D.J. (1988) Improved tools for biological sequence
+   comparison." Proc. Natl. Acad. Sci. USA 85:2444-2448. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3162770">(PubMed)</a><br><br>
+<a name="ref13">[13]</a> Pearson, W.R. (1995) "Comparison of methods for searching protein sequence
+   databases." Prot. Sci. 4:1145-1160. <a href="https://www.ncbi.nlm.nih.gov/pubmed/7549879">(PubMed)</a><br><br>
+<a name="ref14">[14]</a> Altschul, S.F. &amp; Gish, W. (1996) "Local alignment statistics." Meth.
+   Enzymol. 266:460-480. <a href="https://www.ncbi.nlm.nih.gov/pubmed/8743700">(PubMed)</a><br><br>
+<a name="ref15">[15]</a> Altschul, S.F., Madden, T.L., Schäffer, A.A., 
+Zhang, J., Zhang, Z., Miller,   W. &amp; Lipman, D.J. (1997) "Gapped 
+BLAST and PSI-BLAST: a new generation of
+   protein database search programs." Nucleic Acids Res. 25:3389-3402. <a href="https://www.ncbi.nlm.nih.gov/pubmed/9254694">(PubMed)</a><br><br>
+<a name="ref16">[16]</a> Smith, T.F., Waterman, M.S. &amp; Burks, C. (1985) "The statistical
+   distribution of nucleic acid similarities." Nucleic Acids Res. 13:645-656. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3871073">(PubMed)</a><br><br>
+<a name="ref17">[17]</a> Collins, J.F., Coulson, A.F.W. &amp; Lyall, A. (1988) "The significance of
+   protein sequence similarities." Comput. Appl. Biosci. 4:67-71. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3383005">(PubMed)</a><br><br>
+<a name="ref18">[18]</a> Mott, R. (1992) "Maximum-likelihood estimation of the statistical
+   distribution of Smith-Waterman local sequence similarity scores." Bull.
+   Math. Biol. 54:59-75. <br><br>
+
+<a name="ref19">[19]</a> Waterman, M.S. &amp; Vingron, M. (1994) "Rapid and accurate estimates of
+   statistical significance for sequence database searches." Proc. Natl. Acad.
+   Sci. USA 91:4625-4628. <a href="https://www.ncbi.nlm.nih.gov/pubmed/8197109">(PubMed)</a><br><br>
+<a name="ref20">[20]</a> Waterman, M.S. &amp; Vingron, M. (1994) "Sequence comparison significance and
+   Poisson approximation." Stat. Sci. 9:367-381.<br><br>
+
+<a name="ref21">[21]</a> Pearson, W.R. (1998) "Empirical statistical estimates for sequence
+   similarity searches." J. Mol. Biol. 276:71-84. <a href="https://www.ncbi.nlm.nih.gov/pubmed/9514730">(PubMed)</a><br><br>
+<a name="ref22">[22]</a> Arratia, R. &amp; Waterman, M.S. (1994) "A phase transition for the score in
+   matching random sequences allowing deletions." Ann. Appl. Prob. 4:200-225.<br><br>
+
+<a name="ref23">[23]</a> McLachlan, A.D. (1971) "Tests for comparing related amino-acid sequences.
+   Cytochrome c and cytochrome c-551." J. Mol. Biol. 61:409-424. <a href="https://www.ncbi.nlm.nih.gov/pubmed/5167087">(PubMed)</a><br><br>
+<a name="ref24">[24]</a> Dayhoff, M.O., Schwartz, R.M. &amp; Orcutt, B.C. (1978) "A model of
+   evolutionary change in proteins." In "Atlas of Protein Sequence and
+   Structure," Vol. 5, Suppl. 3 (ed. M.O. Dayhoff), pp. 345-352. Natl. Biomed. Res. Found., Washington, DC.<br><br>
+
+<a name="ref25">[25]</a> Schwartz, R.M. &amp; Dayhoff, M.O. (1978) "Matrices for detecting distant
+   relationships." In "Atlas of Protein Sequence and Structure," Vol. 5,
+   Suppl. 3 (ed. M.O. Dayhoff), p. 353-358. Natl. Biomed. Res. Found.,
+   Washington, DC.<br><br>
+
+<a name="ref26">[26]</a> Feng, D.F., Johnson, M.S. &amp; Doolittle, R.F. (1984) "Aligning amino acid
+   sequences: comparison of commonly used methods." J. Mol. Evol. 21:112-125. <a href="https://www.ncbi.nlm.nih.gov/pubmed/6100188">(PubMed)</a><br><br>
+<a name="ref27">[27]</a> Wilbur, W.J. (1985) "On the PAM matrix model of protein evolution." Mol.
+   Biol. Evol. 2:434-447. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3870870">(PubMed)</a><br><br>
+<a name="ref28">[28]</a> Taylor, W.R. (1986) "The classification of amino acid conservation."
+   J. Theor. Biol. 119:205-218. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3461222">(PubMed)</a><br><br>
+<a name="ref29">[29]</a> Rao, J.K.M. (1987) "New scoring matrix for amino acid residue exchanges
+   based on residue characteristic physical parameters." Int. J. Peptide
+   Protein Res. 29:276-281. <br><br>
+
+<a name="ref30">[30]</a> Risler, J.L., Delorme, M.O., Delacroix, H. &amp; Henaut, A. (1988) "Amino acid
+   substitutions in structurally related proteins. A pattern recognition
+   approach. Determination of a new and efficient scoring matrix." J. Mol.
+   Biol. 204:1019-1029. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3221397">(PubMed)</a><br><br>
+<a name="ref31">[31]</a> Altschul, S.F. (1991) "Amino acid substitution matrices from an information
+   theoretic perspective." J. Mol. Biol. 219:555-565. <a href="https://www.ncbi.nlm.nih.gov/pubmed/2051488">(PubMed)</a><br><br>   
+<a name="ref32">[32]</a> States, D.J., Gish, W. &amp; Altschul, S.F. (1991) "Improved sensitivity
+   of nucleic acid database searches using application-specific scoring
+   matrices." Methods 3:66-70. <br><br>
+
+<a name="ref33">[33]</a> Gonnet, G.H., Cohen, M.A. &amp; Benner, S.A. (1992) "Exhaustive matching of the
+   entire protein sequence database." Science 256:1443-1445. <a href="https://www.ncbi.nlm.nih.gov/pubmed/1604319">(PubMed)</a><br><br>
+<a name="ref34">[34]</a> Henikoff, S. &amp; Henikoff, J.G. (1992) "Amino acid substitution matrices from
+   protein blocks." Proc. Natl. Acad. Sci. USA 89:10915-10919. <a href="https://www.ncbi.nlm.nih.gov/pubmed/1438297">(PubMed)</a><br><br>
+<a name="ref35">[35]</a> Jones, D.T., Taylor, W.R. &amp; Thornton, J.M. (1992) "The rapid generation of
+   mutation data matrices from protein sequences." Comput. Appl. Biosci.
+   8:275-282. <a href="https://www.ncbi.nlm.nih.gov/pubmed/1633570">(PubMed)</a><br><br>
+<a name="ref36">[36]</a> Overington, J., Donnelly, D., Johnson M.S., Sali, A. &amp; Blundell, T.L.
+   (1992) "Environment-specific amino acid substitution tables: Tertiary
+   templates and prediction of protein folds." Prot. Sci. 1:216-226. <a href="https://www.ncbi.nlm.nih.gov/pubmed/1304904">(PubMed)</a><br><br>
+<a name="ref37">[37]</a> Henikoff, S. &amp; Henikoff, J.G. (1993) "Performance evaluation of amino acid
+   substitution matrices." Proteins 17:49-61. <a href="https://www.ncbi.nlm.nih.gov/pubmed/8234244">(PubMed)</a><br><br>
+<a name="ref38">[38]</a> Gotoh, O. (1982) "An improved algorithm for matching biological sequences."
+   J. Mol. Biol. 162:705-708. <a href="https://www.ncbi.nlm.nih.gov/pubmed/7166760">(PubMed)</a><br><br>
+<a name="ref39">[39]</a> Fitch, W.M. &amp; Smith, T.F. (1983) "Optimal sequence alignments." Proc. Natl.
+   Acad. Sci. USA 80:1382-1386.<br><br>
+
+<a name="ref40">[40]</a> Altschul, S.F. &amp; Erickson, B.W. (1986) "Optimal sequence alignment using
+   affine gap costs." Bull. Math. Biol. 48:603-616. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3580642">(PubMed)</a><br><br>
+<a name="ref41">[41]</a> Myers, E.W. &amp; Miller, W. (1988) "Optimal alignments in linear space."
+   Comput. Appl. Biosci. 4:11-17. <a href="https://www.ncbi.nlm.nih.gov/pubmed/3382986">(PubMed)</a><br><br>
+<a name="ref42">[42]</a> Claverie, J.-M. &amp; States, D.J. (1993) "Information enhancement methods for
+   large-scale sequence-analysis." Comput. Chem. 17:191-201.<br><br>
+
+<a name="ref43">[43]</a> Wootton, J.C. &amp; Federhen, S. (1993) "Statistics of local complexity in
+   amino acid sequences and sequence databases." Comput. Chem. 17:149-163.<br><br>
+
+<a name="ref44">[44]</a> Altschul, S.F., Boguski, M.S., Gish, W. &amp; Wootton, J.C. (1994) "Issues in
+   searching molecular sequence databases." Nature Genet. 6:119-129. <a href="https://www.ncbi.nlm.nih.gov/pubmed/8162065">(PubMed)</a><br><br>
+
+  </span></td>
+
+
+
+ </tr>
+
+</tbody></table>
+
+<!--         end of content          --> <!--         bottom of the page        --> 
+
+</span>
+
+ 
+
+
+
+
+
+
+
+
+
+</body></html>
