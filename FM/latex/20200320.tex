@@ -1,0 +1,52 @@
+ \documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Formal methods - ch 05 symbolic CTL model Checking}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 20}
+\section{Motivations} % (fold)
+\label{sec:motivations}
+State space explosion: too much memory required, too much CPU time required to explore each state. Solution: symbolic representation system, we manipulate sets of states (rather than single states), expansion of sets of transitions (rather than single transitions.
+% section motivations (end)
+
+\section{Ordered Binary Decision Diagrams} % (fold)
+\label{sec:ordered_binary_decision_diagrams}
+OBDDs 
+\begin{enumerate}
+	\item if-then-else binary direcet acyclic graphs (DAGs)
+	\item Variable ordering, variable are ordered in the read. 
+\end{enumerate}
+\paragraph{Ordered Decision Tree} % (fold)
+\label{par:ordered_decision_tree}
+From root to leaves, variables are encountered always in the same order.
+On this tree we apply dynamic programming style of reduction and removing redundancies we get to a point where we have a OBDD.
+
+\textit{ite == if then else}
+
+\paragraph{} % (fold)
+\label{par:}
+An OBDD is a canonical representation of a boolena formula: once the variable ordering is established, equivalent formulas are represented by the same OBDD. 
+\textbf{EQUIVALENCE CHECK REQUIRES CONSTANT TIME!}
+
+% paragraph ordered_decision_tree (end)
+% section ordered_binary_decision_diagrams (end)
+\end{document}
+\grid
+\grid
+
+

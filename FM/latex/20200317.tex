@@ -1,0 +1,283 @@
+ \documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Formal methods - Temporal logic}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 17}
+\section{CTL model checking} % (fold)
+\label{sec:ctl_model_checking}
+
+\subsection{general ideas} % (fold)
+\label{sub:general_ideas}
+
+CTL Model Checking is a formal verification technique where:
+\begin{enumerate}
+	\item the system is represented as a \textbf{Finite State Machine} $M$
+	
+	\item the property is as CTL formula $\phi$ \[
+		AG(p \rightarrow AF q)
+	\] in all possible initial states, in all possible paths starting from the initial state (AG = in all reachable states), if p holds then for all path sooner or later we hold q.
+
+	\item the model checking algorithm checks whether in \textbf{all initial states} of M \textbf{all the executions} of the model \textbf{satisfy} the formula ($M \models \phi$).
+\end{enumerate}
+
+In general it works in two macro steps:
+\begin{enumerate}
+	\item construct the set of states where the formula holds:\[
+		[\phi] := {s \in S : M,s \models \phi}
+	\] ($[\phi]$ is called the \textbf{denotation} of $\phi$)
+
+	\item then compare with the set of \textbf{initial states}:\[
+		I \subseteq [\phi] ?
+	\]
+\end{enumerate}
+In order to compute $[\phi]$ we proceed bottom up, this way. 
+\begin{enumerate}
+	\item $[q]$
+	\item $[AFq]$
+	\item $[p]$
+	\item $[p \rightarrow AFq]$
+	\item $[AG (p \rightarrow AFq)]$
+\end{enumerate}
+To compute each $[\phi _i]$
+\begin{enumerate}
+	\item labeling function: in which state a given proposition holds.
+	\item use set operations
+	\item compute \textbf{pre-images}
+	\item applying \textbf{tableaux rules}, until a fixpoint is reached: recursive definition of the propostitions
+\end{enumerate}
+
+% subsection general_ideas (end)
+\subsection{A simple example} % (fold)
+\label{sub:a_simple_example}
+\begin{enumerate}
+	\item $q$ We find the states where q holds : state 2
+	\item $AF q$ recall the AF tableau rule $AF q \leftrightarrow (q \lor AXAF q)$
+\end{enumerate}
+% subsection a_simple_example (end)
+\subsection{Some theoretical issues} %  (fold)
+\label{sub:some_theoretical_issues}
+stuff
+
+
+% subsection some_theoretical_issues (end)
+\subsection{Algorithms} % (fold)
+\label{sub:algorithms}
+Assume using only $ \lnot \land EX EU EG$
+\begin{enumerate}
+	\item for every $\phi _i \in Sub(\phi)$, find $[\phi _i]$
+	\item Check if I $\subseteq [\phi]$
+\end{enumerate}
+\begin{enumerate}
+	\item propositional atoms: apply labeling function
+	\item boolean operator: apply standard set operations
+	\item temporal operator: apply recursively the tableaux rules, until a \textbf{fixpoint} is reached.
+\end{enumerate}
+
+\begin{lstlisting}[mathescape=true]
+state_set Check(CTL_formula $\beta$){
+	case $\beta$ of
+	true: return S;
+	false: return {};
+	$\lnot \beta_1$: return S \ Check($\beta_1$);
+	$\beta_1 \land \beta_2$: return Check($\beta_1$) $\cap$ Check($\beta_2$);
+	$EX\beta_1$: return PreImage(Check($\beta_1$));
+	$EG\beta_1$: return Check_EG(Chekck($\beta_1$));
+	$E(\beta_1 U \beta_2)$: return Check_EU(Check($\beta_1$), Check($\beta_2$));
+}
+\end{lstlisting}
+
+\paragraph{PreImage} % (fold)
+\label{par:preimage}
+Add to the S if it is a successor and it holds 
+% paragraph preimage (end)
+\paragraph{Check\_EG} % (fold)
+\label{par:check_eg}
+Intersect to the S if it is a successor and it holds 
+% paragraph check_eg (end)
+\paragraph{Check\_EU} % (fold)
+\label{par:check_eu}
+Add to the S if it Intersect is a successor and it holds
+% paragraph check_eu (end)
+\paragraph{Check\_EF} % (fold)
+\label{par:check_ef}
+
+$$
+	X' := X \cup PreImage(X)
+$$
+
+% paragraph check_ef (end)
+
+
+
+% subsection algorithms (end)
+\subsection{Some examples} % (fold)
+\label{sub:some_examples}
+\subsubsection{Mutual exclusion} % (fold)
+\label{ssub:mutual_exclusion}
+INSERT figure
+\[
+	M \models AGAF C_1 ?
+\]
+To use the algorithm we rewrite it in terms of EG
+\[
+	\Rightarrow M \models \lnot EFEG \lnot C_1 ?
+\]
+Compute the denotations of 
+\[
+	[\lnot C_1]
+\]
+easy. Now this
+\[
+	[EG \lnot C_1]
+\]
+We take our current set of states and \textbf{intersect} with its preimage. Drop all states that does not hold this $EX  S$ next step $EX S$, repeat until there are no changes. Fixpoint reached!
+\[
+	[EFEG \lnot C_1]
+\]
+We do the \textbf{union} of our current approximation with the preimage. $EX S$, repeat until we reach a fixed point.
+\[
+	[\lnot EFEG \lnot C_1]
+\]
+Easy af. we can prove that the property is not verified.
+
+
+\subsubsection{liveness} % (fold)
+\label{ssub:liveness}
+\[
+	M \models AG(T_1 \rightarrow AF C_1)? \Rightarrow M \models \lnot EF (T_1 \land EG \lnot C_1)?
+\]
+% subsubsection liveness (end)
+
+\subsubsection{Complexity of CTL model checking} % (fold)
+\label{ssub:complexity_of_ctl_model_checking}
+$O(|\phi|)$ steps $O(|M|)$ states to explore. $O(|M| * |\phi|)$
+Typically the number of states is huge.
+
+% subsubsection complexity_of_ctl_model_checking (end)
+
+
+% subsection some_examples (end)
+\subsection{Subcase: invariants} % (fold)
+\label{sub:subcase_invariants}
+Invariant properties have the form $AG p$ (e.g., $AG \lnot bad$). To check that a bad state is not reachable ($AG \lnot bad == \lnot EF bad$).
+In this very particular case we can reason that it is possible to stop when we intersect with the initial step OR when we reach a fixed point. But we can do better.
+\subsubsection{Symbolic forward model checking of invariants} % (fold)
+\label{ssub:symbolic_forward_model_checking_of_invariants}
+\textbf{Forward checking}
+\begin{enumerate}
+	\item compute [bad]
+	\item compute the set of initial states $I$
+	\item compute the set of reachable states from $I$ until it intersect [bad] or a fixed point is reached.
+\end{enumerate}
+Basic step is the \textbf{Forward Image}\[
+	Image(Y) := {s' | s \in Y and R(s,s') holds}
+\]
+Simplest form: compute the set of reachable states.
+% subsubsection symbolic_forward_model_checking_of_invariants (end)
+% subsection subcase_invariants (end)
+
+\subsection{Exercises} % (fold)
+\label{sub:exercises}
+\paragraph{CTL model checking} % (fold)
+\label{par:ctl_model_checking}
+$\phi = AG ((p \land q) \rightarrow EG q)$
+TODO ADD figure\\
+Rewrite $\phi$ into an equivalent formula $\phi'$ expressed in terms of EX, EG, EU/ EF only.\\
+Compute bottom-up the denotations
+\[
+	p \land q = s_1
+\]\[
+	q = s_1 \cup s_0
+\]
+next step
+\[
+	EG q = s_1 \cup s_0 = {s_0, s_1} 
+\]
+next step
+\[
+	\lnot EG q = {s_2} 
+\]
+next steps
+\[
+	(p \land q) \land (\lnot EG q) = \emptyset
+\]
+next step 
+\[
+	EF((p \land q) \land (\lnot EG q)) = \emptyset
+\]
+next step 
+\[
+	\lnot EF((p \land q) \land (\lnot EG q)) = S = s_1, s_2, s_3
+\]
+finished.\\
+As consequence of the previous point, say wheter $M \models \phi$ \textbf{Yes}
+
+% paragraph ctl_model_checking (end)
+
+\paragraph{CTL model checking 2} % (fold)
+\label{par:ctl_model_checking_2}
+\[
+	AG(AF p \rightarrow q)
+\]
+Rewrite
+\[
+	pirpippir
+\]
+Compute time
+
+\[
+	\lnot p = s_2, s_1
+\]
+\[
+	EG \lnot p = s_1, s_2 \cup s_0, s_1, s_2  = s_1, s_2
+\]
+\[
+	\lnot EG \lnot p = s_0
+\]
+\[
+	\lnot q = s_1
+\]
+\[
+	EG \lnot q = s_1 \cup s_0, s_1, s_2 = s_1		
+\]
+\[
+	(\lnot EG \lnot p) \land (EG \lnot q) = s_1 \cup  s_0, s_2 = \emptyset
+\]
+\[
+	EF((\lnot EG \lnot p) \land (EG \lnot q)) = \emptyset
+\]
+\[
+	\lnot EF((\lnot EG \lnot p) \land (EG \lnot q)) = s_0, s_1, s_2		
+\]
+
+% paragraph ctl_model_checking_2 (end)
+% subsection exercises (end)
+% section ctl_model_checking (end)
+
+\section{Homework} % (fold)
+\label{sec:homework}
+Apply the same process to all the CTL examples of Chapter 3 
+EX = pre image;  EG = intersection, EF equal Union to what we have; E(a U b) = b U (a inter image(a))
+% section homework_ (end)
+\end{document}
+\grid
+\grid
+
+
+% slide 04 27/71 temporal operator: APPY
