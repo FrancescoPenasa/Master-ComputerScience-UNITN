@@ -1,0 +1,93 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Distributed System 1 - synch 5}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 23}
+
+\section{Exercises corrected} % (fold)
+\label{sec:exercises_corrected}
+\paragraph{Exercise 1 of distributed snapshot}
+\label{par:exercise_1_of_distributed_snapshot}
+write all the nodes with their actual value
+\begin{enumerate}
+	\item A : 4 + (4+6 AC) 
+	\item B : 13
+	\item C : 5 + (7 CD)
+	\item D : 0
+	\item E : 7
+	\item F : 2 + (2 FB) + (1 FE)
+\end{enumerate}
+write all the links with the stuff
+\begin{enumerate}
+	\item AC : done
+	\item AE : (2 E)
+	\item BA : (1 A)
+	\item CD : done
+	\item CE : done
+	\item DF : done
+	\item ED : (1 D)
+	\item EB : (4+5 B)
+	\item FB : 0
+	\item FE : (4 E)
+\end{enumerate}
+write total of the nodes
+\begin{enumerate}
+	\item A : 4 + (4+6 AC) 
+	\item B : 13 + (4+5 EB)
+	\item C : 5 + (7 CD)
+	\item D : 0
+	\item E : 7 + (2 AE) + (4 FE)
+	\item F : 2 + (2 FB) + (1 FE)
+\end{enumerate}
+i really have to read it again.
+% paragraph exercise_1_of_distributed_snapshot (end)]
+\paragraph{exercise 2} % (fold)
+\label{par:exercise_2}
+\begin{enumerate}
+	\item link CE has a T even if it is an already marked link
+	\item 2 takens running in EF
+	\item an error is the fact that B is a sink, thus the graph is not connected (for the snapshot the graph have to be strongly connected, here in B there is no outgoing link)
+	\item D to E and D to F: can’t have been happened if A was the initiator since D has to receive a mark from anyone before starting sending marks.
+\end{enumerate}
+% paragraph exercise_2 (end)
+% section exercises_corrected (end)
+
+\section{Consistency and replication} % (fold)
+\label{sec:consistency_and_replication}
+
+\paragraph{Sequential consistency} % (fold)
+\label{par:sequential_consistency}
+\textit{The result is the same as if the operation by all processes werer executed in some sequential order, and the operations by each process appear in this sequence in the order specified by its program.}
+Operations may not be re-ordered, all processes see the same interleaving.
+% paragraph sequential_consistency (end)
+
+\paragraph{Causal consistency} % (fold)
+\label{par:causal_consistency}
+\textit{Writes that are potentially causally related must be seen by all processes in the same order. Concurrent writes may be seen in any order at different machines.}
+% paragraph causal_consistency (end)
+
+\paragraph{FIFO consistency} % (fold)
+\label{par:fifo_consistency}
+\textit{Writes done by a single process are seen by all others in the order in which they were issued; writes from different processes may be seen in any order at different machines.}
+Keep the order for each proces, but there is no guarantee in the big picture order.
+% paragraph fifo_consistency (end)
+% section consistency_and_replication (end)
+\end{document}
+\grid
+\grid
