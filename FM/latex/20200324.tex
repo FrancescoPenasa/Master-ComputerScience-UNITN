@@ -1,0 +1,71 @@
+ \documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Formal methods - ch 05 symbolic CTL model Checking}
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 24}
+\section{Symbolic representation of systems part 2} % (fold)
+\label{sec:symbolic_representation_of_systems_part_2}
+\subsection{Symbolic representation of systems} % (fold)
+\label{sub:symbolic_representation_of_systems}
+\paragraph{Symbolic representation} % (fold)
+\label{par:symbolic_representation}
+a set of state as their characteristic function (boolean formula).
+\textbf{Example} 
+three state variables $x_1, x_2, x_3$: {000, 001, 010, 011} represented as $\lnot x$.
+$\xi(s) $ is the formula representing the state $s \in S$
+
+% section a_simple_example (end)
+\subsection{Pre-image} % (fold)
+\label{sub:pre_image}
+The most important slide: the symbolic representation of the pre-image.\\
+Theoretic view:
+\[
+	PreImage(P,R) :=  \{s | for some s' \in P, (s, s') \in R\}
+\]
+Logical view:
+\[
+	\xi(PreImage(P,R)) := \exists V' . (\xi(P)[V'] \land \xi(R)[V,V'])
+\]
+% subsection pre_image (end)
+
+
+\paragraph{Symbolic CTL model checking} % (fold)
+\label{par:symbolic_ctl_model_checking}
+$\xi([\phi_i])$ computed directly, without computing 
+$[\phi_i]$ explicitly!
+% paragraph symbolic_ctl_model_checking (end)
+
+$$PreImage(X) \rightarrow \exists V' . (X[V'] \land \xi(R)[V,V'])$$
+$$Check\_EG(X) \rightarrow Y' = Y \land PreImage(Y);$$
+	$$Check\_EU(X_1, X_2) \rightarrow Y'=X_2 \rightarrow Y' = Y \lor (X_1 \land PreImage(Y));$$
+Avoid building the state graph explicitly! Reduce dramatically the state explosion problem 
+
+% section symbolic_representation_of_systems_part_2 (end)
+
+
+\section{A simple example} % (fold)
+\label{sec:a_simple_example}
+ 
+% section a_simple_example (end)
+formula of preimage and formula of post image
+\end{document}
+\grid
+\grid
+
+
