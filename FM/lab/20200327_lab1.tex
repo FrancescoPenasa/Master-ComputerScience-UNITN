@@ -1,0 +1,148 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Formal methods - Lab1}
+\maketitle
+
+\medskip
+
+% === Starting point === %
+\texttt{2020 03 27}\\
+\texttt{enrico.magnago@unitn.it}
+\texttt{enricomagnano.com and patrick trentin website}
+
+\begin{enumerate}
+	\item write formal models in smv language for finite, infinite and timed systems
+	\item inspect possible executions
+	\item write and verify invariant and temporal properties
+\end{enumerate}
+
+
+\paragraph{exam} % (fold)
+\label{par:exam}
+\begin{enumerate}
+	\item write 2 formal models in SMV language
+	\item simulate these models 
+	\item verify some properties
+\end{enumerate}
+% paragraph exam (end)
+
+\section{Introduction} % (fold)
+\label{sec:introduction}
+\begin{enumerate}
+	\item SMV
+	\item NuSMV
+	\item nuXmv
+\end{enumerate}
+% section introduction (end)
+
+nuXmv allows for the verification of
+\begin{enumerate}
+	\item finite-state system
+	\item infinite-state systems
+	\item timed systems
+	\item only \textit{synchronous} systems
+\end{enumerate}
+
+
+\begin{lstlisting}
+	nuXmv -int = interactive mode
+	help = show the list of all comands
+	reset 
+	read_model [-i filename]
+	go = bdd engine only on finite system
+	go_bmc 
+	go_msat
+\end{lstlisting}
+
+\begin{lstlisting}
+pick state [- ]
+simulate []
+print_current_state [] = prints out the current state	
+goto_state 
+show_traces
+show_vars
+quit = exit
+\end{lstlisting}
+
+\section{First SMV model} % (fold)
+\label{sec:first_smv_model}
+\begin{lstlisting}
+MODULE main 				-- mandatory
+VAR 						-- define vars
+	b0 : boolean;
+ASSIGN
+	init(b0) := FALSE;		--initial constraint
+	next(b0) := !b0;		--constraint of the transition
+\end{lstlisting}
+
+types:
+\begin{enumerate}
+	\item boolean: \texttt{x : TRUE}
+	\item enumerative: \texttt{s : {ready, busy}}
+	\item bounded integers: \texttt{n : 1..8;1} (between INT\_MIN and INT\_MAX)
+	\item integers
+	\item somethings
+	\item words
+	\item arrays : \texttt{x : array 0..10 of boolean;} 
+		\texttt{y : array -1..1 of {red, green, orange}} 
+		\texttt{z : array 1..10 of array 1..5 of boolean} (matrix)
+\end{enumerate}
+
+\begin{lstlisting}
+MODULE main
+VAR
+	b0 : boolean;
+	b1 : boolean;
+
+ASSIGN
+	init(b0) := FALSE;
+	next(b0) := !b0
+	init(y) := {1, 2, 3}; -- y can be either 1, 2 or 3
+\end{lstlisting}
+
+\begin{lstlisting}
+case
+	c1 : e1;
+	c2 : e2;
+	TRUE : en;
+esac
+
+cond_expr ? ep1 : ep2
+\end{lstlisting}
+
+transition relation
+\begin{lstlisting}
+next(a) := {a, a+1};
+\end{lstlisting}
+
+\paragraph{not to do} % (fold)
+\label{par:not_to_do}
+\begin{enumerate}
+	\item write multiple init for the same value;
+\end{enumerate}
+
+
+% paragraph not_to_do (end)
+
+% section first_smv_model (end)
+
+\section{Exercise} % (fold)
+\label{sec:exercise}
+TODO before friday 2020 04 03
+% section exercise (end)
+
+\end{document}
+\grid
+\grid

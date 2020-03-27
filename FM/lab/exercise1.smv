@@ -1,0 +1,7 @@
+MODULE main
+	VAR
+		request : boolean;
+		state 	: {ready, busy};
+
+	ASSIGN
+		next()
