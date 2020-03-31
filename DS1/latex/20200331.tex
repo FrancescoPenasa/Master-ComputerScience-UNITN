@@ -1,0 +1,60 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Distributed System 1 - }
+\maketitle
+
+\medskip
+
+% ========== Begin answering questions here
+\texttt{2020 03 31}
+
+\texttt{slide 27}
+\paragraph{Implementing Replication} % (fold)
+\label{par:implementing_replication}
+How to distribute updates and how to keep replicas consistent?
+\paragraph{Epidemic Algorithms} % (fold)
+\label{par:epidemic_algorithms}
+Based on the theory of infectious disease spreading.
+\begin{enumerate}
+	\item \textbf{good news}intrinsically distributed and redundant: scalable, fault-tolerant, resilient to topological changes.
+	\item \textbf{bad news}probabilistic in nature: cannot provide deterministic guarantee 
+\end{enumerate}
+
+\paragraph{Consistency protocols} % (fold)
+\label{par:consistency_protocols}
+implement consistency model by guaranteeing its properties. Sequential consistency is the model most widely used. 
+\begin{enumerate}
+	\item Primary-based protocols: remote write (datacenters) where a replica server is in charge to serialize and spread. local-write where the client that actually performs the write becomes the new primary-backup. all based on this idea that one replica is more important than the others
+	\item Replicated-write protocols:quorum-based, uses voting to ensure sequential consistency, before a read or write, clients must "get permission" by multiple replicas (quorum) example slide 36.
+\end{enumerate}
+
+\section{Middleware} % (fold)
+\label{sec:middleware}
+a software that allows elements of appllications to inmteroperate across network links, despite differences.
+\textbf{middleware provide: hardware independence, interchangeability of key software components, network indepence, operational sabings and administrative savings}.
+Remote procedure Call (RPC): enable remote access through the well-known procedure call programming.\\
+To pass a parameter value
+\begin{enumerate}
+	\item serialization (convert in byte to transmit the data)
+	\item marshalling (encode with data representation info)
+\end{enumerate}
+middleware provides automates support.
+% section middleware (end)
+
+
+
+\end{document}
+\grid
+\grid
