@@ -1,0 +1,83 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+
+\topmargin -.5in
+\textheight 9in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\textwidth 7in
+
+\begin{document}
+
+% ========== Edit your name here
+\author{Francesco Penasa}
+\title{Algorithms for Bioinformatics - lab1}
+\maketitle
+
+\medskip
+Some bash cmds
+\begin{lstlisting}
+locate empty # find a file by name
+
+file empty.txt # recognize the type of data contained in a file
+
+less <filename> # visualize the content
+head -n <filename> # show the first n lines
+
+cmd1 | cmd2 | ... | cmdN # concat cmds and the out of cmdN-1 becames the input of cmdN
+
+ls -l > list_files.txt # redirect output
+ls >> list_files.txt # append the output 
+
+grep <what> <where> # search for occurences
+grep -A3 -B9 <what> <where> # search after line 3 and before line 9
+grep -C3 <what> <where> # search before and after line 3
+grep -i <what> <where> # case sensitive
+grep -v <what> <where> # everything that does not match
+grep -c <what> <where> # count lines that match
+grep -w <what> <where> # match whole word
+grep -n <what> <where> # display the number of matches 
+
+whatis ls ; man ls
+\end{lstlisting}
+
+\section{Bash exercise} % (fold)
+\label{sec:bash_exercise}
+\begin{lstlisting}
+# Lets go to your home folder 
+cd /home/Francesco 
+
+# Create a folder named “tmp”
+mkdir tmp  
+
+# Create a file that contains the manual of the ls command
+man ls > manual.txt 
+
+# Put this file into the “tmp” folder
+mv manual.txt tmp/manual.txt  
+
+# Count how many occurrences of “ls” are present (case sensitive, whole word) 
+grep -i -w ls tmp/manual.txt 
+
+# Print the first 7 lines that matched (case sensitive, not whole word) 
+grep -i ls tmp/manual.txt | head -n 7 
+
+# Save the output to a file named “10.txt” 
+grep -i ls tmp/manual.txt | head -n 7 > 10.txt 
+
+# Print the first 3 lines of the last 5 lines that matched 
+grep -i ls tmp/manual.txt | tail -n 5 | head -n 3
+
+# Concatenate this output to the file “10.txt”
+grep -i ls tmp/manual.txt | tail -n 5 | head -n 3 >> 10.txt 
+
+# Now remove the “tmp” folder
+rm -r tmp 
+\end{lstlisting}
+
+% section bash_exercise (end)
+
+\end{document}
+\grid
+\grid
