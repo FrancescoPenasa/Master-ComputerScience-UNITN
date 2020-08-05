@@ -1,0 +1,53 @@
+2019-01-09
+1. Proof outline of a concurrent program.
+
+2. Prove the auxiliary lemma of the Impossibility Result in the case of 3 threads.
+
+3. Write the unlock() method of the MCS queue and describe the node implementation.
+
+4. Given a trace of Michael & Scott's dequeue, find a reduction if possible.
+
+
+2019-01-25
+
+1. Proof outline of a concurrent program.
+
+2. Prove the auxiliary lemma of the Impossibility Result in the case of 3 threads.
+
+3. Write the lock() and unlock() methods of the MCS queue and describe the node implementation.
+
+4. ???
+
+
+2019-06-10
+
+1. Show that the provided lock() and unlock() implementations guarantee mutual exclusion.
+
+2. Describe Michael & Scott's dequeue method.
+
+3. Proof outline of a sequential program.
+
+4. Show the consensus number of non-trivial RMW registers.
+
+5. Show that sequential consistency is not a local property.
+
+6. Write the contains() method of lazy synchronization.
+
+7. Proof outline of a concurrent program.
+
+
+2019-06-28
+
+1. In the proof outline of Peterson's algorithm, why is {inv: flag[i] = false} an incorrect invariant for the innermost loop?
+
+2. Write Michael & Scott's enqueue.
+
+3. Write Michael & Scott's dequeue.
+
+4. Write the unlock() method of the MCS queue and the node implementation.
+
+5. Write the lock() and unlock() methods of the CLH queue and the node implementation.
+
+7. Proof outline of a concurrent program.
+
+8. ???
